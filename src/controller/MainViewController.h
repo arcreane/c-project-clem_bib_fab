@@ -1,0 +1,14 @@
+//
+// Created by CYTech Student on 2/23/2022.
+//
+
+#ifndef TOWERDEFENSE_MAINVIEWCONTROLLER_H
+#define TOWERDEFENSE_MAINVIEWCONTROLLER_H
+
+
+class MainViewController {
+
+};
+
+
+#endif //TOWERDEFENSE_MAINVIEWCONTROLLER_H
