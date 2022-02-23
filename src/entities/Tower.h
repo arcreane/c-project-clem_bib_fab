@@ -6,8 +6,11 @@
 #define TOWERDEFENSE_TOWER_H
 
 
-class Tower {
-
+#include "Projectile.h"
+#include "InfoEntities.h"
+#include <vector>
+class Tower : InfoEntities{
+    std::vector<Projectile> projectiles;
 };
 
 

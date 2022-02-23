@@ -6,8 +6,15 @@
 #define TOWERDEFENSE_MONSTER_H
 
 
-class Monster {
+#include "InfoEntities.h"
+#include "../graphics/SpriteSheet.h"
 
+class Monster : public InfoEntities {
+    SpriteSheet spriteSheet;
+public:
+    Monster(int x, int y, int with, int height, int damageDealt, SpriteSheet *spriteSheet);
+
+    const SpriteSheet &getSpriteSheet() const;
 };
 
 
