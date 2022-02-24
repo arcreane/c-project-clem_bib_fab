@@ -7,31 +7,36 @@
 
 
 class InfoEntities {
-    int x,y,with,height;
-    int damageDealt;
+    float x,y,with,height;
+    float damageDealt;
+    float timerFrame;
 
 public:
-    int getX() const;
+    float getX() const;
 
-    void setX(int x);
+    void setX(float x);
 
-    int getY() const;
+    float getY() const;
 
-    void setY(int y);
+    void setY(float y);
 
-    int getWith() const;
+    float getWith() const;
 
-    void setWith(int with);
+    void setWith(float with);
 
-    int getHeight() const;
+    float getHeight() const;
 
-    void setHeight(int height);
+    void setHeight(float height);
 
-    int getDamageDealt() const;
+    float getDamageDealt() const;
 
-    void setDamageDealt(int damageDealt);
+    void setDamageDealt(float damageDealt);
 
-    InfoEntities(int x, int y, int with, int height, int damageDealt);
+    float getTimerFrame() const;
+
+    void setTimerFrame(float timerFrame);
+
+    InfoEntities(float x, float y, float with, float height, float damageDealt, float timerFrame);
 };
 
 

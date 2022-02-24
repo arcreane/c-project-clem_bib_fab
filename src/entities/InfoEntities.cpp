@@ -4,46 +4,60 @@
 
 #include "InfoEntities.h"
 
-int InfoEntities::getX() const {
+float InfoEntities::getX() const {
     return x;
 }
 
-void InfoEntities::setX(int x) {
+void InfoEntities::setX(float x) {
     InfoEntities::x = x;
 }
 
-int InfoEntities::getY() const {
+float InfoEntities::getY() const {
     return y;
 }
 
-void InfoEntities::setY(int y) {
+void InfoEntities::setY(float y) {
     InfoEntities::y = y;
 }
 
-int InfoEntities::getWith() const {
+float InfoEntities::getWith() const {
     return with;
 }
 
-void InfoEntities::setWith(int with) {
+void InfoEntities::setWith(float with) {
     InfoEntities::with = with;
 }
 
-int InfoEntities::getHeight() const {
+float InfoEntities::getHeight() const {
     return height;
 }
 
-void InfoEntities::setHeight(int height) {
+void InfoEntities::setHeight(float height) {
     InfoEntities::height = height;
 }
 
-int InfoEntities::getDamageDealt() const {
+float InfoEntities::getDamageDealt() const {
     return damageDealt;
 }
 
-void InfoEntities::setDamageDealt(int damageDealt) {
+void InfoEntities::setDamageDealt(float damageDealt) {
     InfoEntities::damageDealt = damageDealt;
 }
 
-InfoEntities::InfoEntities(int x, int y, int with, int height, int damageDealt) : x(x), y(y), with(with),
-                                                                                  height(height),
-                                                                                  damageDealt(damageDealt) {}
+float InfoEntities::getTimerFrame() const {
+    return timerFrame;
+}
+
+void InfoEntities::setTimerFrame(float timerFrame) {
+    InfoEntities::timerFrame = timerFrame;
+}
+
+InfoEntities::InfoEntities(float x, float y, float with, float height, float damageDealt, float timerFrame) : x(x),
+                                                                                                              y(y),
+                                                                                                              with(with),
+                                                                                                              height(height),
+                                                                                                              damageDealt(
+                                                                                                                      damageDealt),
+                                                                                                              timerFrame(
+                                                                                                                      timerFrame) {}
+

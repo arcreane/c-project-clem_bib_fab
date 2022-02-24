@@ -11,9 +11,7 @@
 class Projectile : public InfoEntities{
     float speed;
 public:
-    Projectile(float speed,int x, int y, int with, int height, int damageDealt):InfoEntities(x,  y,  with,  height,  damageDealt){
-        this->speed = speed;
-    };
+
 
 };
 

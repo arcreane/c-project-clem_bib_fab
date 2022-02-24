@@ -10,36 +10,36 @@
 #include "raylib.h"
 
 class SpriteSheet {
-    int currentSheet = 0;
-    int direction = 0;// bas,gauche,droite,haut ---- 0,1,2,3
-    int wgap;
-    int hgap;
+    float currentSheet = 0;
+    float direction = 0;// bas,gauche,droite,haut ---- 0,1,2,3
+    float wgap;
+    float hgap;
     Texture sSheet;
 
 public:
-    SpriteSheet(int currentSheet, const char* spriteSheetPath,int wgap,int hgap, int direction);
+    SpriteSheet(float currentSheet, float direction, float wgap, float hgap, const Texture &sSheet);
 
-    SpriteSheet(SpriteSheet *pSheet);
+    float getCurrentSheet() const;
 
-    int getCurrentSheet() const;
+    void setCurrentSheet(float currentSheet);
 
-    void setCurrentSheet(int currentSheet);
+    float getDirection() const;
 
-    int getDirection() const;
+    void setDirection(float direction);
 
-    void setDirection(int direction);
+    float getWgap() const;
 
-    int getWgap() const;
+    void setWgap(float wgap);
 
-    void setWgap(int wgap);
+    float getHgap() const;
 
-    int getHgap() const;
+    void setHgap(float hgap);
 
-    void setHgap(int hgap);
-
-    Texture &getSSheet() ;
+    const Texture &getSSheet() const;
 
     void setSSheet(const Texture &sSheet);
+
+
 };
 
 

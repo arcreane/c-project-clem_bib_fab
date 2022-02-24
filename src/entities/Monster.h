@@ -12,9 +12,14 @@
 class Monster : public InfoEntities {
     SpriteSheet spriteSheet;
 public:
-    Monster(int x, int y, int with, int height, int damageDealt, SpriteSheet *spriteSheet);
 
-    const SpriteSheet &getSpriteSheet() const;
+    Monster(float x, float y, float with, float height, float damageDealt,float timerFrame, SpriteSheet &spriteSheet);
+
+    SpriteSheet &getSpriteSheet() ;
+
+    void setSpriteSheet(const SpriteSheet &spriteSheet);
+
+    void nextSheet();
 };
 
 
