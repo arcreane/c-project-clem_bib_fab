@@ -4,5 +4,23 @@
 
 #include "Monster.h"
 
-Monster::Monster(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet)
-        : InfoEntities(damageDealt, timerFrame, hitbox, spriteSheet) {}
+Monster::Monster(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet)
+        : InfoEntities(damageDealt, timerFrame, hitbox, spriteSheet) {
+}
+
+void Monster::changeDirectionIfNeeded(Trajet trajet) {
+    std::vector<Vector2> allDir = trajet.getEnemyTrajet();
+    std::vector<int> dir = trajet.getEnemyTrajetDir();
+    for(int i = 0;i < allDir.size(); i++){
+        if (CheckCollisionPointRec(allDir.at(i),this->getHitbox())){
+            Monster::getSpriteSheet().setDirection(dir.at(i));
+        }
+    }
+}
+
+void Monster::moveMonster(Trajet trajet) {
+    changeDirectionIfNeeded(trajet);
+    InfoEntities::move();
+}
+
+

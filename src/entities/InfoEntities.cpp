@@ -25,7 +25,7 @@ void InfoEntities::drawEntity(){
 
 }
 
-InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet)
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet)
         : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox), spriteSheet(spriteSheet) {}
 
 float InfoEntities::getDamageDealt() const {
@@ -51,14 +51,32 @@ const Rectangle &InfoEntities::getHitbox() const {
 void InfoEntities::setHitbox(const Rectangle &hitbox) {
     InfoEntities::hitbox = hitbox;
 }
-
-const SpriteSheet &InfoEntities::getSpriteSheet() const {
+SpriteSheet &InfoEntities::getSpriteSheet(){
     return spriteSheet;
 }
 
-void InfoEntities::setSpriteSheet(const SpriteSheet &spriteSheet) {
+void InfoEntities::setSpriteSheet(SpriteSheet &spriteSheet){
     InfoEntities::spriteSheet = spriteSheet;
 }
 
+void InfoEntities::move() {
+    switch ((int)this->spriteSheet.getDirection()) {
+        case 0:
+            this->hitbox.y += (float)this->speed;
+            break;
+        case 1:
+            this->hitbox.x -= (float)this->speed;
+            break;
+        case 2:
+            this->hitbox.x += (float)this->speed;
+            break;
+        case 3:
+            this->hitbox.y -= (float)this->speed;
+            break;
+    }
+}
 
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,
+                           int speed) : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox),
+                                        spriteSheet(spriteSheet), speed(speed) {}
 

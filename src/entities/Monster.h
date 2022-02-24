@@ -8,12 +8,17 @@
 
 #include "InfoEntities.h"
 #include "../graphics/SpriteSheet.h"
+#include "Trajet.h"
 
 class Monster : public InfoEntities {
 
 public:
 
-    Monster(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet);
+    Monster(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet);
+
+    void changeDirectionIfNeeded(Trajet trajet);
+
+    void moveMonster(Trajet trajet);
 
 
 };
