@@ -1,8 +1,8 @@
-# Install script for directory: H:/Documents/ING2/C++/c-project-clem_bib_fab
+# Install script for directory: C:/Users/CYTech Student/CLionProjects/Projet/c-project-clem_bib_fab
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/c_project_clem_bib_fab")
+  set(CMAKE_INSTALL_PREFIX "C:/Program Files (x86)/towerDefense")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -34,12 +34,12 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "H:/App/CLion 2021.3.2/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Users/CYTech Student/AppData/Local/JetBrains/Toolbox/apps/CLion/ch-0/213.6461.75/bin/mingw/bin/objdump.exe")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("H:/Documents/ING2/C++/c-project-clem_bib_fab/cmake-build-debug/_deps/raylib-build/cmake_install.cmake")
+  include("C:/Users/CYTech Student/CLionProjects/Projet/c-project-clem_bib_fab/cmake-build-debug/_deps/raylib-build/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "H:/Documents/ING2/C++/c-project-clem_bib_fab/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/CYTech Student/CLionProjects/Projet/c-project-clem_bib_fab/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
