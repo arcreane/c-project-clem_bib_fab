@@ -7,8 +7,7 @@ constexpr  int WIDTH = 1280, HEIGHT = 800;
 int main() {
     InitWindow(WIDTH,HEIGHT,"tower defense");
     SetTargetFPS(60);
-    SpriteSheet s = SpriteSheet(0,0, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"));
-    Monster monster = Monster(0,0,3,4,5,0.0,s);
+    Monster monster = Monster(0,0,3,4,5,0.0,*(new SpriteSheet(0,0, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))));
     while(!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(RAYWHITE);
