@@ -6,27 +6,24 @@
 #define TOWERDEFENSE_INFOENTITIES_H
 
 
+#include "raylib.h"
+#include "../graphics/SpriteSheet.h"
+
 class InfoEntities {
-    float x,y,with,height;
     float damageDealt;
     float timerFrame;
+    Rectangle hitbox;
+    SpriteSheet spriteSheet;
 
 public:
-    float getX() const;
 
-    void setX(float x);
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet);
 
-    float getY() const;
+    void drawHitbox();
 
-    void setY(float y);
+    void drawEntity();
 
-    float getWith() const;
-
-    void setWith(float with);
-
-    float getHeight() const;
-
-    void setHeight(float height);
+    void nextSheet();
 
     float getDamageDealt() const;
 
@@ -36,7 +33,13 @@ public:
 
     void setTimerFrame(float timerFrame);
 
-    InfoEntities(float x, float y, float with, float height, float damageDealt, float timerFrame);
+    const Rectangle &getHitbox() const;
+
+    void setHitbox(const Rectangle &hitbox);
+
+    const SpriteSheet &getSpriteSheet() const;
+
+    void setSpriteSheet(const SpriteSheet &spriteSheet);
 };
 
 

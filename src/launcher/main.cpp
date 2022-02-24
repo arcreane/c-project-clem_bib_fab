@@ -7,15 +7,13 @@ constexpr  int WIDTH = 1280, HEIGHT = 800;
 int main() {
     InitWindow(WIDTH,HEIGHT,"tower defense");
     SetTargetFPS(60);
-    Monster monster = Monster(0,0,3,4,5,0.0,*(new SpriteSheet(0,0, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))));
+    Monster monster = Monster(5,0.0,{100,100,32,44},*(new SpriteSheet(0,1, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))));
     while(!WindowShouldClose()){
         BeginDrawing();
             ClearBackground(RAYWHITE);
             monster.setTimerFrame(monster.getTimerFrame()+GetFrameTime());
-        DrawTextureRec(monster.getSpriteSheet().getSSheet(),
-                       {monster.getSpriteSheet().getCurrentSheet() * monster.getSpriteSheet().getWgap(),
-                        monster.getSpriteSheet().getDirection() * monster.getSpriteSheet().getHgap(),
-                        monster.getSpriteSheet().getWgap(), monster.getSpriteSheet().getHgap()}, {0, 0}, WHITE);
+            monster.drawEntity();
+            monster.drawHitbox();
         if (monster.getTimerFrame() > 0.2f) {
             monster.nextSheet();
             monster.setTimerFrame(0);

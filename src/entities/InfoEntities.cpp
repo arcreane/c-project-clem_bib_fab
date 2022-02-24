@@ -4,37 +4,29 @@
 
 #include "InfoEntities.h"
 
-float InfoEntities::getX() const {
-    return x;
+void InfoEntities::drawHitbox() {
+    DrawRectangleLines(InfoEntities::hitbox.x,InfoEntities::hitbox.y,InfoEntities::hitbox.width,InfoEntities::hitbox.height,RED);
 }
 
-void InfoEntities::setX(float x) {
-    InfoEntities::x = x;
+void InfoEntities::nextSheet() {
+    int  x = InfoEntities::spriteSheet.getCurrentSheet();
+    if (x + 1 > 2){
+        InfoEntities::spriteSheet.setCurrentSheet(0);
+    }else{
+        InfoEntities::spriteSheet.setCurrentSheet(x + 1);
+    }
 }
 
-float InfoEntities::getY() const {
-    return y;
+void InfoEntities::drawEntity(){
+    DrawTextureRec(InfoEntities::spriteSheet.getSSheet(),
+                   {InfoEntities::spriteSheet.getCurrentSheet() * InfoEntities::spriteSheet.getWgap(),
+                    InfoEntities::spriteSheet.getDirection() * InfoEntities::spriteSheet.getHgap(),
+                    InfoEntities::spriteSheet.getWgap(), InfoEntities::spriteSheet.getHgap()}, {InfoEntities::getHitbox().x, InfoEntities::getHitbox().y + InfoEntities::getHitbox().height - InfoEntities::spriteSheet.getHgap()}, WHITE);
+
 }
 
-void InfoEntities::setY(float y) {
-    InfoEntities::y = y;
-}
-
-float InfoEntities::getWith() const {
-    return with;
-}
-
-void InfoEntities::setWith(float with) {
-    InfoEntities::with = with;
-}
-
-float InfoEntities::getHeight() const {
-    return height;
-}
-
-void InfoEntities::setHeight(float height) {
-    InfoEntities::height = height;
-}
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet)
+        : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox), spriteSheet(spriteSheet) {}
 
 float InfoEntities::getDamageDealt() const {
     return damageDealt;
@@ -52,12 +44,21 @@ void InfoEntities::setTimerFrame(float timerFrame) {
     InfoEntities::timerFrame = timerFrame;
 }
 
-InfoEntities::InfoEntities(float x, float y, float with, float height, float damageDealt, float timerFrame) : x(x),
-                                                                                                              y(y),
-                                                                                                              with(with),
-                                                                                                              height(height),
-                                                                                                              damageDealt(
-                                                                                                                      damageDealt),
-                                                                                                              timerFrame(
-                                                                                                                      timerFrame) {}
+const Rectangle &InfoEntities::getHitbox() const {
+    return hitbox;
+}
+
+void InfoEntities::setHitbox(const Rectangle &hitbox) {
+    InfoEntities::hitbox = hitbox;
+}
+
+const SpriteSheet &InfoEntities::getSpriteSheet() const {
+    return spriteSheet;
+}
+
+void InfoEntities::setSpriteSheet(const SpriteSheet &spriteSheet) {
+    InfoEntities::spriteSheet = spriteSheet;
+}
+
+
 

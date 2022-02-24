@@ -10,16 +10,12 @@
 #include "../graphics/SpriteSheet.h"
 
 class Monster : public InfoEntities {
-    SpriteSheet spriteSheet;
+
 public:
 
-    Monster(float x, float y, float with, float height, float damageDealt,float timerFrame, SpriteSheet &spriteSheet);
+    Monster(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet);
 
-    SpriteSheet &getSpriteSheet() ;
 
-    void setSpriteSheet(const SpriteSheet &spriteSheet);
-
-    void nextSheet();
 };
 
 
