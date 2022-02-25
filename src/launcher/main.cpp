@@ -21,13 +21,13 @@ int main() {
            DrawTexture(bg,0,0,WHITE);
            DrawTexture(inventory,1280,0,WHITE);
            monster.setTimerFrame(monster.getTimerFrame()+GetFrameTime());
-            monster.moveMonster(monsterTrajet);
-            monster.drawEntity();
-            monster.drawHitbox();
-	        if (monster.getTimerFrame() > 0.2f) {
-	            monster.nextSheet();
-	            monster.setTimerFrame(0);
-	        }
+           monster.moveMonster(monsterTrajet);
+           monster.drawEntity();
+           monster.drawHitbox();
+	       if (monster.getTimerFrame() > 0.2f) {
+	           monster.nextSheet();
+	           monster.setTimerFrame(0);
+	       }
            for (int i = 0; i < tileMapManager.getAvailablePlacesTower().size(); ++i) {
                Rectangle r  =  tileMapManager.getAvailablePlacesTower().at(i);
                DrawRectangleRec(r,RED);
