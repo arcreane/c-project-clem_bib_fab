@@ -14,10 +14,14 @@ class InfoEntities {
     float timerFrame;
     Rectangle hitbox;
     SpriteSheet spriteSheet;
+    int speed = 1;
 
 public:
 
-    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet);
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet);
+
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,
+                 int speed);
 
     void drawHitbox();
 
@@ -37,9 +41,11 @@ public:
 
     void setHitbox(const Rectangle &hitbox);
 
-    const SpriteSheet &getSpriteSheet() const;
+    SpriteSheet &getSpriteSheet() ;
 
-    void setSpriteSheet(const SpriteSheet &spriteSheet);
+    void setSpriteSheet(SpriteSheet &spriteSheet);
+
+    void move();
 };
 
 
