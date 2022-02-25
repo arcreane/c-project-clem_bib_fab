@@ -15,6 +15,8 @@ class InfoEntities {
     Rectangle hitbox;
     SpriteSheet spriteSheet;
     int speed = 1;
+    float health = 100;
+    int monsterType;
 
 public:
 
@@ -22,6 +24,16 @@ public:
 
     InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int MonsterType,
                  int speed);
+
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet,
+                 int speed, float health, int monsterType);
+
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet,
+                 float health, int monsterType);
+
+    float getHealth() const;
+
+    void setHealth(float health);
 
     void drawHitbox();
 
@@ -47,7 +59,10 @@ public:
 
     void move();
 
-    int monsterType;
+    void drawHealthbox();
+
+    bool isAlive();
+
 };
 
 

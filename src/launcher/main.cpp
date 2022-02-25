@@ -44,9 +44,13 @@ int main() {
            createdMonsters[j].moveMonster(monsterTrajet);
            createdMonsters[j].drawEntity();
            createdMonsters[j].drawHitbox();
+           createdMonsters[j].drawHealthbox();
            if (createdMonsters[j].getTimerFrame() > 0.2f) {
                createdMonsters[j].nextSheet();
                createdMonsters[j].setTimerFrame(0);
+           }
+           if (!createdMonsters[j].isAlive()){
+               createdMonsters.erase(createdMonsters.begin()+j);
            }
 
        }

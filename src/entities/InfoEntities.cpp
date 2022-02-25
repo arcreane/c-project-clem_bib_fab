@@ -95,3 +95,36 @@ InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle 
                            int speed) : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox),
                                         spriteSheet(spriteSheet), speed(speed), monsterType(monsterType) {}
 
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet,
+                           int speed, float health, int monsterType) : damageDealt(damageDealt), timerFrame(timerFrame),
+                                                                       hitbox(hitbox), spriteSheet(spriteSheet),
+                                                                       speed(speed), health(health),
+                                                                       monsterType(monsterType) {}
+
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, const SpriteSheet &spriteSheet,
+                           float health, int monsterType) : damageDealt(damageDealt), timerFrame(timerFrame),
+                                                            hitbox(hitbox), spriteSheet(spriteSheet), health(health),
+                                                            monsterType(monsterType) {}
+
+float InfoEntities::getHealth() const {
+    return health;
+}
+
+void InfoEntities::setHealth(float health) {
+    InfoEntities::health = health;
+}
+
+void InfoEntities::drawHealthbox() {
+    float health = this->getHealth();
+    DrawRectangleLines(this->hitbox.x, this->hitbox.y-5, this->hitbox.width,5,RED);
+    DrawRectangle(this->hitbox.x, this->hitbox.y-5, (this->hitbox.width*health)/100,5,GREEN);
+}
+
+bool InfoEntities::isAlive() {
+    if (this->getHealth() > 0) {
+        return true;
+    }
+    return false;
+
+}
+

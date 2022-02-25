@@ -7,7 +7,7 @@
 #include <utility>
 
 Trajet::Trajet() {
-    this->enemyTrajet = {{192,800},{192,162},{1056,162},{1056,800}};
+    this->enemyTrajet = {{192,800},{192,162-44},{1056+(32/2),162},{1056,800}};
     this->enemyTrajetDir = {3,2,0,0};
 }
 
