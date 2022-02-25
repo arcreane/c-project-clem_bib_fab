@@ -4,8 +4,8 @@
 
 #include "Monster.h"
 
-Monster::Monster(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet)
-        : InfoEntities(damageDealt, timerFrame, hitbox, spriteSheet) {
+Monster::Monster(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,int monsterType)
+        : InfoEntities(damageDealt, timerFrame, hitbox, spriteSheet, monsterType) {
 }
 
 void Monster::changeDirectionIfNeeded(Trajet trajet) {

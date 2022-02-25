@@ -3,6 +3,7 @@
 //
 
 #include "InfoEntities.h"
+#include <iostream>
 
 void InfoEntities::drawHitbox() {
     DrawRectangleLines(InfoEntities::hitbox.x,InfoEntities::hitbox.y,InfoEntities::hitbox.width,InfoEntities::hitbox.height,RED);
@@ -17,16 +18,30 @@ void InfoEntities::nextSheet() {
     }
 }
 
-void InfoEntities::drawEntity(){
+void InfoEntities::drawEntity() {
+   /* int offset;
+    switch (monsterType) {
+        case 0:
+            offset = 0;
+            break;
+        case 1:
+            offset = 96;
+            break;
+        default:
+            offset = 0;
+            std::cout << "y'a peut etre un probleme chef" << std::endl;
+    }*/
     DrawTextureRec(InfoEntities::spriteSheet.getSSheet(),
-                   {InfoEntities::spriteSheet.getCurrentSheet() * InfoEntities::spriteSheet.getWgap(),
+                   {InfoEntities::spriteSheet.getCurrentSheet() * InfoEntities::spriteSheet.getWgap() + monsterType,
                     InfoEntities::spriteSheet.getDirection() * InfoEntities::spriteSheet.getHgap(),
-                    InfoEntities::spriteSheet.getWgap(), InfoEntities::spriteSheet.getHgap()}, {InfoEntities::getHitbox().x, InfoEntities::getHitbox().y + InfoEntities::getHitbox().height - InfoEntities::spriteSheet.getHgap()}, WHITE);
-
+                    InfoEntities::spriteSheet.getWgap(), InfoEntities::spriteSheet.getHgap()},
+                   {InfoEntities::getHitbox().x,
+                    InfoEntities::getHitbox().y + InfoEntities::getHitbox().height -
+                    InfoEntities::spriteSheet.getHgap()}, WHITE);
 }
 
-InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet)
-        : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox), spriteSheet(spriteSheet) {}
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int monsterType)
+        : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox), spriteSheet(spriteSheet), monsterType(monsterType) {}
 
 float InfoEntities::getDamageDealt() const {
     return damageDealt;
@@ -76,7 +91,7 @@ void InfoEntities::move() {
     }
 }
 
-InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int monsterType,
                            int speed) : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox),
-                                        spriteSheet(spriteSheet), speed(speed) {}
+                                        spriteSheet(spriteSheet), speed(speed), monsterType(monsterType) {}
 

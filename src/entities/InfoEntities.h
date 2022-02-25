@@ -18,9 +18,9 @@ class InfoEntities {
 
 public:
 
-    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet);
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int MonsterType);
 
-    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int MonsterType,
                  int speed);
 
     void drawHitbox();
@@ -46,6 +46,8 @@ public:
     void setSpriteSheet(SpriteSheet &spriteSheet);
 
     void move();
+
+    int monsterType;
 };
 
 
