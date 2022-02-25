@@ -29,6 +29,8 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         DrawTexture(bg,0,0,WHITE);
+
+
              timer += GetFrameTime();
 
            if (timer > 0.5f && i<= WaveMonsterList.size()) {
@@ -46,11 +48,13 @@ int main() {
                createdMonsters[j].nextSheet();
                createdMonsters[j].setTimerFrame(0);
            }
-           for (int i = 0; i < tileMapManager.getAvailablePlacesTower().size(); ++i) {
-               Rectangle r  =  tileMapManager.getAvailablePlacesTower().at(i);
-               DrawRectangleRec(r,RED);
-           }
+
        }
+
+        for (int m = 0; m < tileMapManager.getAvailablePlacesTower().size(); ++m) {
+            Rectangle r  =  tileMapManager.getAvailablePlacesTower().at(m);
+            DrawRectangleRec(r,RED);
+        }
          EndDrawing();
     }
     return 0;
