@@ -20,7 +20,7 @@ endif()
 
 # Our Project
 
-add_executable(${PROJECT_NAME} src/launcher/main.cpp src/animation/GameLoop.cpp src/animation/GameLoop.h src/controller/MainViewController.cpp src/controller/MainViewController.h src/entities/Tower.cpp src/entities/Tower.h src/entities/Monster.cpp src/entities/Monster.h src/graphics/GameMap.cpp src/graphics/GameMap.h src/graphics/SpriteSheet.cpp src/graphics/SpriteSheet.h src/model/block.cpp src/model/block.h src/tile/TileMapManager.cpp src/tile/TileMapManager.h src/entities/Projectile.cpp src/entities/Projectile.h src/entities/InfoEntities.cpp src/entities/InfoEntities.h src/entities/Trajet.cpp src/entities/Trajet.h)
+add_executable(${PROJECT_NAME} src/launcher/main.cpp src/entities/Tower.cpp src/entities/Tower.h src/entities/Monster.cpp src/entities/Monster.h src/graphics/SpriteSheet.cpp src/graphics/SpriteSheet.h src/tile/TileMapManager.cpp src/tile/TileMapManager.h src/entities/Projectile.cpp src/entities/Projectile.h src/entities/InfoEntities.cpp src/entities/InfoEntities.h src/entities/Trajet.cpp src/entities/Trajet.h src/listener/Inventory.cpp src/listener/Inventory.h src/listener/Item.cpp src/listener/Item.h src/entities/Player.cpp src/entities/Player.h)
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 

@@ -13,21 +13,19 @@ class InfoEntities {
     float damageDealt;
     float timerFrame;
     Rectangle hitbox;
-    SpriteSheet spriteSheet;
     int speed = 1;
 
 public:
 
-    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet);
+    InfoEntities(float damageDealt, float timerFrame, Rectangle &hitbox);
 
-    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet,
-                 int speed);
+    InfoEntities(float damageDealt, float timerFrame, Rectangle &hitbox,int speed);
+
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,int speed);
+
+    InfoEntities();
 
     void drawHitbox();
-
-    void drawEntity();
-
-    void nextSheet();
 
     float getDamageDealt() const;
 
@@ -37,15 +35,14 @@ public:
 
     void setTimerFrame(float timerFrame);
 
-    const Rectangle &getHitbox() const;
+    Rectangle &getHitbox();
 
-    void setHitbox(const Rectangle &hitbox);
+    void setHitbox(Rectangle &hitbox);
 
-    SpriteSheet &getSpriteSheet() ;
+    int getSpeed() const;
 
-    void setSpriteSheet(SpriteSheet &spriteSheet);
+    void setSpeed(int speed);
 
-    void move();
 };
 
 

@@ -11,16 +11,19 @@
 #include "Trajet.h"
 
 class Monster : public InfoEntities {
-
+    SpriteSheet spriteSheet;
 public:
 
-    Monster(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet);
+    Monster(float damageDealt, float timerFrame, Rectangle &hitbox,  SpriteSheet &spriteSheet);
+
 
     void changeDirectionIfNeeded(Trajet trajet);
 
     void moveMonster(Trajet trajet);
 
+    void nextSheet();
 
+    void drawEntity();
 };
 
 

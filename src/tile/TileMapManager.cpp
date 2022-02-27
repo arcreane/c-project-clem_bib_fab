@@ -3,6 +3,8 @@
 //
 
 #include "TileMapManager.h"
+#include "../entities/Tower.h"
+#include "../listener/Inventory.h"
 #include <fstream>
 using std::ifstream;
 #include <cstdlib>
@@ -64,5 +66,34 @@ TileMapManager::TileMapManager(const char* file) {
         }
     }else{
         std::cout << "Something went wrong while opening " << file;
+    }
+}
+
+void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler) {
+    bool notPlacedYet = true;
+    if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+        Vector2 mvector = GetMousePosition();
+        for (int i = 0; i < placesTower.size(); ++i) {
+            Rectangle place = placesTower.at(i);
+            if(CheckCollisionPointRec(mvector,place)){
+                for (int j = 0; j < towersPlaced.size(); ++j) {
+                    if (towersPlaced.at(j).getHitbox().x == place.x && towersPlaced.at(j).getHitbox().y == place.y){
+                        notPlacedYet = false;
+                    }
+                }
+                if (notPlacedYet) {
+                    std::vector<Projectile> v;
+                    Tower tower = inventoryHandler.getCreatorMap().find(inventoryHandler.getSItem().getId())->second(1,0.0,place,1,inventoryHandler.getSItem().getId(),inventoryHandler.getSItem().getImage(),v);
+                    towersPlaced.push_back(tower);
+                }
+            }
+        }
+    }
+}
+
+void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
+    for (int i = 0; i < towersPlaced.size(); ++i) {
+        Tower t = towersPlaced.at(i);
+        DrawTextureRec(t.getImage(),{0,0,64,64},{t.getHitbox().x,t.getHitbox().y},WHITE);
     }
 }

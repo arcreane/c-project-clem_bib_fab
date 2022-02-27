@@ -48,3 +48,5 @@ const Texture &SpriteSheet::getSSheet() const {
 void SpriteSheet::setSSheet(const Texture &sSheet) {
     SpriteSheet::sSheet = sSheet;
 }
+
+SpriteSheet::SpriteSheet() {}

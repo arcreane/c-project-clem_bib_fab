@@ -11,7 +11,7 @@
 class Projectile : public InfoEntities{
     float speed;
 public:
-
+    Projectile();
 
 };
 

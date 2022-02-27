@@ -19,6 +19,8 @@ class SpriteSheet {
 public:
     SpriteSheet(float currentSheet, float direction, float wgap, float hgap, const Texture &sSheet);
 
+    SpriteSheet();
+
     float getCurrentSheet() const;
 
     void setCurrentSheet(float currentSheet);

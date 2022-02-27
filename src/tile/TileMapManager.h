@@ -8,6 +8,12 @@
 
 #include <vector>
 #include "raylib.h"
+#include "../entities/Tower.h"
+#include "../listener/Inventory.h"
+
+static constexpr  int WIDTH = 1600, HEIGHT = 800;
+static constexpr  int WIDTH_GAME = 1280, HEIGHT_GAME = 800;
+static constexpr  int WIDTH_Z = 32, HEIGHT_Z = 44;
 
 class TileMapManager {
     std::vector<Rectangle> placesTower;
@@ -26,6 +32,10 @@ public:
     std::vector<Rectangle> &getAvailablePlacesTower() ;
 
     void setAvailablePlacesTower( std::vector<Rectangle> &availablePlacesTower);
+
+    void placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler);
+
+    void drawTowers(std::vector<Tower> vector1);
 };
 
 
