@@ -4,6 +4,8 @@
 #include "../entities/Monster.h"
 #include "../entities/Trajet.h"
 #include "../tile/TileMapManager.h"
+#include "../entities/Player.h"
+#include "../controller/Waves.h"
 
 
 int main() {
@@ -32,33 +34,26 @@ int main() {
            tileMapManager.placeTower(towersPlaced, inventoryHandler);
            tileMapManager.drawTowers(towersPlaced);
            timer += GetFrameTime();
-
            if (timer > 0.5f && i<= WaveMonsterList.size()) {
                createdMonsters.push_back(WaveMonsterList[i]);
                i++;
                timer = 0.0f;
            }
+           for (int j = 0; j < createdMonsters.size(); ++j) {
+               createdMonsters[j].setTimerFrame(createdMonsters[j].getTimerFrame()+GetFrameTime());
+               createdMonsters[j].moveMonster(monsterTrajet);
+               createdMonsters[j].drawEntity();
+               createdMonsters[j].drawHitbox();
+               createdMonsters[j].drawHealthbox();
+               if (createdMonsters[j].getTimerFrame() > 0.2f) {
+                   createdMonsters[j].nextSheet();
+                   createdMonsters[j].setTimerFrame(0);
+               }
+               if (!createdMonsters[j].isAlive()){
+                   createdMonsters.erase(createdMonsters.begin()+j);
+               }
 
-       for (int j = 0; j < createdMonsters.size(); ++j) {
-           createdMonsters[j].setTimerFrame(createdMonsters[j].getTimerFrame()+GetFrameTime());
-           createdMonsters[j].moveMonster(monsterTrajet);
-           createdMonsters[j].drawEntity();
-           createdMonsters[j].drawHitbox();
-           createdMonsters[j].drawHealthbox();
-           if (createdMonsters[j].getTimerFrame() > 0.2f) {
-               createdMonsters[j].nextSheet();
-               createdMonsters[j].setTimerFrame(0);
            }
-           if (!createdMonsters[j].isAlive()){
-               createdMonsters.erase(createdMonsters.begin()+j);
-           }
-
-       }
-
-        for (int m = 0; m < tileMapManager.getAvailablePlacesTower().size(); ++m) {
-            Rectangle r  =  tileMapManager.getAvailablePlacesTower().at(m);
-            DrawRectangleRec(r,RED);
-        }
        EndDrawing();
    }
     return 0;

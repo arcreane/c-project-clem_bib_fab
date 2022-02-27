@@ -19,12 +19,7 @@ public:
 
     InfoEntities(float damageDealt, float timerFrame, Rectangle &hitbox);
 
-    InfoEntities(float damageDealt, float timerFrame, Rectangle &hitbox,int speed);
-	float getHealth() const;
-
-    void setHealth(float health);
-
-        InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,int speed);
+    InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox, int speed);
 
     InfoEntities();
 
@@ -45,9 +40,6 @@ public:
     int getSpeed() const;
 
     void setSpeed(int speed);
- void drawHealthbox();
-
-    bool isAlive();
 };
 
 

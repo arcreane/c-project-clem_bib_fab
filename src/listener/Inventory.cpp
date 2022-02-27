@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "../tile/TileMapManager.h"
 
-typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,
+typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
                                      const Texture2D &image, const std::vector<Projectile> &projectiles);
 
 Inventory::Inventory() {
@@ -17,9 +17,7 @@ Inventory::Inventory() {
     while((int) ct != numberOfTower) {
             i++;
             path = "../resources/towers/Tower" + std::to_string((x)) + ".png";
-            Texture texture =  LoadTexture(path.c_str());
-            std::cout << (float) i<< std::endl;
-            items.push_back((*new Item({WIDTH_GAME + firstx + (i * offsetx) + (i*64) , firsty + (y*offsety) + (y*64),64,64}, texture,"Tower" + std::to_string((x)))));
+            items.push_back((*new Item({WIDTH_GAME + firstx + (i * offsetx) + (i*64) , firsty + (y*offsety) + (y*64),64,64}, LoadTexture(path.c_str()),"Tower" + std::to_string((x)))));
             ct++;
             x++;
         if (i == numberOfTowerOnLine - 1){

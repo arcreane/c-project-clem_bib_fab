@@ -12,13 +12,12 @@
 #include <string>
 
 class Tower : public InfoEntities{
+
     std::string id;
     Texture2D image;
     std::vector<Projectile> projectiles;
 
 public:
-    Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,
-          const Texture2D &image, const std::vector<Projectile> &projectiles);
 
     const std::string &getId() const;
 
@@ -33,6 +32,9 @@ public:
     const Texture2D &getImage() const;
 
     void setImage(const Texture2D &image);
+
+    Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
+          const Texture2D &image, const std::vector<Projectile> &projectiles);
 };
 
 

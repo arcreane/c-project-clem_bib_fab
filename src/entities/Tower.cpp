@@ -25,7 +25,7 @@ Tower::Tower(std::string id) {
     this->id = id;
 }
 
-Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,
+Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
              const Texture2D &image, const std::vector<Projectile> &projectiles) : InfoEntities(damageDealt, timerFrame,
                                                                                                 hitbox, speed), id(id),
                                                                                    image(image),

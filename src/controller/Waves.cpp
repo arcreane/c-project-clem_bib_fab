@@ -6,14 +6,13 @@
 #include "../entities/Trajet.h"
 #include <vector>
 
-constexpr  int WIDTH = 1280, HEIGHT = 800;
-constexpr  int WIDTH_Z = 32, HEIGHT_Z = 44;
+constexpr  float WIDTH = 1280, HEIGHT = 800;
+constexpr  float WIDTH_Z = 32, HEIGHT_Z = 44;
 
-Waves::Waves(int nbOfMonsters,int id, int numberOfZombies, int numberOfSkeletons){
-    this->nbOfMonsters = nbOfMonsters;
-    this->id = id;
-    this->numberOfZombies = numberOfZombies;
-    this->numberOfSkeletons = numberOfSkeletons;
+Waves::Waves(int nbOfMonsters, int id, int numberOfZombies, int numberOfSkeletons) : nbOfMonsters(nbOfMonsters), id(id),
+                                                                                     numberOfZombies(numberOfZombies),
+                                                                                     numberOfSkeletons(
+                                                                                             numberOfSkeletons) {
     initListOfMonsters();
 }
 
@@ -61,8 +60,18 @@ void Waves::initListOfMonsters(){
     std::vector<Monster> initList;
     Trajet monsterTrajet = Trajet();
     //set Monstertype to 0 for zombie, and 96 for skeleton with the zombie_n_skeleton2.png
-    Monster zombie = Monster(5,0.0,{(float)monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z/2),(float)monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,WIDTH_Z,HEIGHT_Z},*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),0);
-    Monster skeleton = Monster(5,0.0,{(float)monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z/2),(float)monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,WIDTH_Z,HEIGHT_Z},*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96);
+    Rectangle recZombies = {(float) monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z / 2),
+                            (float) monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,
+                            WIDTH_Z,
+                            HEIGHT_Z};
+    Rectangle recSkeleton = {(float)monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z/2),(float)monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,WIDTH_Z,HEIGHT_Z};
+    Monster zombie = Monster(5,
+                             0.0,
+                             recZombies,1,5,
+                              *(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png")))
+                              ,0);
+    Monster skeleton = Monster(5,0.0,
+                               recSkeleton,1,5,*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96);
 
     for (int i = 0; i < Waves::numberOfZombies; ++i) {
         initList.push_back(zombie);

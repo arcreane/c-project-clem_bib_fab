@@ -16,12 +16,12 @@ class Inventory {
     float firstx=6,firsty=264,selectx=128,selecty=93,offsetx=14,offsety=14;
     const int numberOfTower = 5;
     const int numberOfTowerOnLine = 4;
-    typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,
+    typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
                                          const Texture2D &image, const std::vector<Projectile> &projectiles);
     Item sItem ;
     std::vector<Item> items;
     std::map<std::string,createTowerFunction> creatorMap;
-    static Tower createT1(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,
+    static Tower createT1(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
              const Texture2D &image, const std::vector<Projectile> &projectiles)
                           { return (*new Tower(damageDealt,timerFrame,hitbox,1,"Tower1", LoadTexture("../resources/towers/Tower1.png"),projectiles)); };
     static Tower createT2(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, const std::string &id,

@@ -16,7 +16,7 @@ class Waves{
 
 
 public:
-    Waves(int nbOfMonsters,int id, int numberOfZombie, int numberOfSkeletons);
+    Waves(int nbOfMonsters, int id, int numberOfZombies, int numberOfSkeletons);
 
 
     int getNbOfMonsters() const;
