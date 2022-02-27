@@ -16,7 +16,7 @@ class Waves{
 
 
 public:
-    Waves(int nbOfMonsters, int id, int numberOfZombies, int numberOfSkeletons);
+    Waves(int id, int numberOfZombies, int numberOfSkeletons);
 
 
     int getNbOfMonsters() const;
@@ -27,7 +27,7 @@ public:
 
     void setId(int id);
 
-    const std::vector<Monster> &getListOfMonsters() const;
+    const std::vector<Monster> getListOfMonsters() const;
 
     void setListOfMonsters(const std::vector<Monster> &listOfMonsters);
 

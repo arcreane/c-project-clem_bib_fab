@@ -9,7 +9,7 @@
 constexpr  float WIDTH = 1280, HEIGHT = 800;
 constexpr  float WIDTH_Z = 32, HEIGHT_Z = 44;
 
-Waves::Waves(int nbOfMonsters, int id, int numberOfZombies, int numberOfSkeletons) : nbOfMonsters(nbOfMonsters), id(id),
+Waves::Waves(int id, int numberOfZombies, int numberOfSkeletons) : nbOfMonsters(numberOfZombies + numberOfSkeletons), id(id),
                                                                                      numberOfZombies(numberOfZombies),
                                                                                      numberOfSkeletons(
                                                                                              numberOfSkeletons) {
@@ -32,7 +32,7 @@ void Waves::setId(int id) {
     Waves::id = id;
 }
 
-const std::vector<Monster> &Waves::getListOfMonsters() const {
+const std::vector<Monster> Waves::getListOfMonsters() const {
     return listOfMonsters;
 }
 
@@ -64,14 +64,17 @@ void Waves::initListOfMonsters(){
                             (float) monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,
                             WIDTH_Z,
                             HEIGHT_Z};
-    Rectangle recSkeleton = {(float)monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z/2),(float)monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,WIDTH_Z,HEIGHT_Z};
+    Rectangle recSkeleton = {(float)monsterTrajet.getEnemyTrajet().at(0).x - (WIDTH_Z/2),
+                             (float)monsterTrajet.getEnemyTrajet().at(0).y - HEIGHT_Z,
+                             WIDTH_Z,
+                             HEIGHT_Z};
     Monster zombie = Monster(5,
                              0.0,
-                             recZombies,1,5,
+                             recZombies,2,5,
                               *(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png")))
                               ,0);
     Monster skeleton = Monster(5,0.0,
-                               recSkeleton,1,5,*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96);
+                               recSkeleton,2,5,*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96);
 
     for (int i = 0; i < Waves::numberOfZombies; ++i) {
         initList.push_back(zombie);
