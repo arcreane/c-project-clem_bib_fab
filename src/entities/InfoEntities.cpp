@@ -10,6 +10,8 @@ void InfoEntities::drawHitbox() {
 
 InfoEntities::InfoEntities(float damageDealt, float timerFrame,  Rectangle &hitbox)
         : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox) {}
+InfoEntities::InfoEntities(float damageDealt, float timerFrame, const Rectangle &hitbox,  SpriteSheet &spriteSheet, int monsterType)
+        : damageDealt(damageDealt), timerFrame(timerFrame), hitbox(hitbox), spriteSheet(spriteSheet), monsterType(monsterType) {}
 
 float InfoEntities::getDamageDealt() const {
     return damageDealt;
@@ -43,10 +45,26 @@ int InfoEntities::getSpeed() const {
 
 void InfoEntities::setSpeed(int speed) {
     InfoEntities::speed = speed;
+float InfoEntities::getHealth() const {
+    return health;
 }
 
-InfoEntities::InfoEntities(float damageDealt, float timerFrame, Rectangle &hitbox, int speed)
-: damageDealt(damageDealt),timerFrame(timerFrame), hitbox(hitbox), speed(speed) {
+void InfoEntities::setHealth(float health) {
+    InfoEntities::health = health;
+}
+
+void InfoEntities::drawHealthbox() {
+    float health = this->getHealth();
+    DrawRectangleLines(this->hitbox.x, this->hitbox.y-5, this->hitbox.width,5,RED);
+    DrawRectangle(this->hitbox.x, this->hitbox.y-5, (this->hitbox.width*health)/100,5,GREEN);
+}
+
+bool InfoEntities::isAlive() {
+    if (this->getHealth() > 0) {
+        return true;
+    }
+    return false;
+
 }
 
 
