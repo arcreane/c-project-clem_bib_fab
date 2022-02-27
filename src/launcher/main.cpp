@@ -18,7 +18,7 @@ int main() {
     Texture2D inventory = LoadTexture("../resources/inventory.png");
     Trajet monsterTrajet = Trajet();
     TileMapManager tileMapManager = TileMapManager("../resources/tower_defense.xml");
-    Waves firstWave = Waves(5, 1, 3,2);
+    Waves firstWave = Waves(1, 1, 1,0);
     std::vector<Monster> WaveMonsterList = firstWave.getListOfMonsters();
 
     std::vector<Monster> createdMonsters;
@@ -52,8 +52,8 @@ int main() {
                if (!createdMonsters[j].isAlive()){
                    createdMonsters.erase(createdMonsters.begin()+j);
                }
-
            }
+           tileMapManager.aim(createdMonsters,towersPlaced);
        EndDrawing();
    }
     return 0;

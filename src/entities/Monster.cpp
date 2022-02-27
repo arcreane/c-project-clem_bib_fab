@@ -25,7 +25,6 @@ void Monster::changeDirectionIfNeeded(Trajet trajet) {
     std::vector<int> dir = trajet.getEnemyTrajetDir();
     for(int i = 0;i < allDir.size(); i++){
         if (CheckCollisionPointRec(allDir.at(i),this->getHitbox())){
-            health--;
             Monster::spriteSheet.setDirection(dir.at(i));
         }
     }
@@ -65,8 +64,7 @@ void Monster::drawEntity(){
                     Monster::spriteSheet.getWgap(), Monster::spriteSheet.getHgap()},
                    {InfoEntities::getHitbox().x,
                     InfoEntities::getHitbox().y + InfoEntities::getHitbox().height -
-                            Monster::spriteSheet.getHgap()}, WHITE);
-
+                            Monster::spriteSheet.getHgap()},WHITE);
 }
 
 int Monster::getMonsterType() const { return monsterType; }
@@ -84,7 +82,6 @@ void Monster::setHealth(float health) { Monster::health = health; }
 float Monster::getInitialHealth() const { return initialHealth; }
 
 void Monster::setInitialHealth(float initialHealth) { Monster::initialHealth = initialHealth; }
-
 
 
 

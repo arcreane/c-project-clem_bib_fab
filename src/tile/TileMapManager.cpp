@@ -5,12 +5,14 @@
 #include "TileMapManager.h"
 #include "../entities/Tower.h"
 #include "../listener/Inventory.h"
+#include "../entities/Monster.h"
 #include <fstream>
 using std::ifstream;
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 
 TileMapManager::TileMapManager(std::vector<Rectangle> &placesTower, std::vector<Rectangle> &availablePlacesTower) {
 
@@ -83,7 +85,17 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                 }
                 if (notPlacedYet) {
                     std::vector<Projectile> v;
-                    Tower tower = inventoryHandler.getCreatorMap().find(inventoryHandler.getSItem().getId())->second(1,0.0,place,1,inventoryHandler.getSItem().getId(),inventoryHandler.getSItem().getImage(),v);
+                    Tower tower = inventoryHandler.getCreatorMap().find(
+                            inventoryHandler.getSItem().getId())->second(
+                                    1,
+                                    0.0,
+                                    place,
+                                    1,
+                                    inventoryHandler.getSItem().getId(),
+                                    inventoryHandler.getSItem().getImage(),
+                                    {place.x + 64/2,place.y + 64/2},
+                                    200,
+                                    v);
                     towersPlaced.push_back(tower);
                 }
             }
@@ -94,6 +106,28 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
 void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
     for (int i = 0; i < towersPlaced.size(); ++i) {
         Tower t = towersPlaced.at(i);
-        DrawTextureRec(t.getImage(),{0,0,64,64},{t.getHitbox().x,t.getHitbox().y},WHITE);
+        std::cout <<t.getAngle()<<std::endl;
+        DrawTexturePro(
+                t.getImage(),
+                {0,0,64,64},
+                {t.getHitbox().x + 32,t.getHitbox().y + 32,64,64},
+                {32,32},
+                t.getAngle(),
+                WHITE);
+        DrawCircleLines(t.getCenter().x,t.getCenter().y,t.getRadius(),GREEN);
+    }
+}
+void TileMapManager::aim(std::vector<Monster> monsters,std::vector<Tower> &towersPlaced){
+    for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
+    for (int i = 0; i <monsters.size() ; ++i) {
+        Monster m = monsters.at(i);
+        float f =64/2;
+        for (auto & t : towersPlaced) {
+            if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster()){
+                double angle = (atan2((m.getHitbox().y + f/1.5  )- t.getCenter().y, (m.getHitbox().x + f ) - t.getCenter().x)- atan2((t.getHitbox().y + f)  - t.getCenter().y,(t.getHitbox().x + f) - t.getCenter().x)) * 180 / PI;
+                t.setAngle(angle + 90);
+                t.setIsFollowingMonster(true);
+            }
+        }
     }
 }
