@@ -12,7 +12,7 @@
 
 int main() {
     InitWindow(WIDTH,HEIGHT,"tower defense");
-    Player p1 = Player(10,5) ;
+    Player p1 = Player(25,5) ;
     std::vector<Tower> towersPlaced;
     Inventory inventoryHandler = Inventory();
     SetTargetFPS(60);
@@ -35,6 +35,7 @@ int main() {
     int wavesOccuring = 0;
     int textFramesCounter = 0;
     char message[15] = "WAVE %d" ;
+    char msgHealth[10] = "Vie : ";
 
     while(!WindowShouldClose()){
        BeginDrawing();
@@ -45,6 +46,8 @@ int main() {
            inventoryHandler.checkIfneedToChangeSItem();
            tileMapManager.placeTower(towersPlaced, inventoryHandler);
            tileMapManager.drawTowers(towersPlaced);
+           p1.drawHealth(msgHealth);
+           p1.drawMoney();
            timer += GetFrameTime();
            timertest += GetFrameTime();
            textFramesCounter++;
@@ -71,8 +74,23 @@ int main() {
                    createdMonsters[j].nextSheet();
                    createdMonsters[j].setTimerFrame(0);
                }
+               //damage du monstre si il arrive au bout
+               if (createdMonsters[j].isFinish(monsterTrajet)){
+                   p1.setHealth(p1.getHealth()-createdMonsters[j].getDamageDealt());
+               }
                if (!createdMonsters[j].isAlive()){
                    createdMonsters.erase(createdMonsters.begin()+j);
+                   //gain en fonction du type de monstre
+                   switch (createdMonsters[j].getMonsterType()) {
+                       case 0:
+                           p1.setMoney(p1.getMoney()+1);
+                           break;
+                       case 96:
+                           p1.setMoney(p1.getMoney()+2);
+                           break;
+                       default:
+                           break;
+                   }
                    if(createdMonsters.empty()){
                        WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
                        wavesOccuring+=1;

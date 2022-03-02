@@ -9,13 +9,19 @@
 #include "InfoEntities.h"
 #include "../graphics/SpriteSheet.h"
 #include "Trajet.h"
+#include "Player.h"
 
 class Monster : public InfoEntities {
 
     SpriteSheet spriteSheet;
     int monsterType;
     float health,initialHealth;
+    bool finish = false;
 public:
+    bool isFinish1() const;
+
+    void setFinish(bool finish);
+
     int getMonsterType() const;
 
     void setMonsterType(int monsterType);
@@ -45,6 +51,8 @@ public:
 
     void drawHealthbox();
     bool isAlive();
+
+    bool isFinish(Trajet trajet);
 
 };
 

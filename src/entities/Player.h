@@ -5,9 +5,12 @@
 #ifndef TOWERDEFENSE_PLAYER_H
 #define TOWERDEFENSE_PLAYER_H
 
+#include "raylib.h"
+
 
 class Player {
-    float health = 10;
+    float initialHealth = 30;
+    float health = 30;
     float money = 5;
 
 public:
@@ -20,6 +23,10 @@ public:
     float getMoney() const;
 
     void setMoney(float money);
+
+    void drawHealth(char* msg);
+
+    void drawMoney();
 
 };
 

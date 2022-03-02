@@ -2,7 +2,9 @@
 // Created by CYTech Student on 2/23/2022.
 //
 
+#include <iostream>
 #include "Monster.h"
+#include "Player.h"
 
 Monster::Monster(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, float health, SpriteSheet &spriteSheet, int monsterType)
         : spriteSheet(spriteSheet),monsterType(monsterType),health(health),initialHealth(health), InfoEntities(damageDealt, timerFrame, hitbox, speed) {
@@ -25,7 +27,7 @@ void Monster::changeDirectionIfNeeded(Trajet trajet) {
     std::vector<int> dir = trajet.getEnemyTrajetDir();
     for(int i = 0;i < allDir.size(); i++){
         if (CheckCollisionPointRec(allDir.at(i),this->getHitbox())){
-            health--;
+            //health--;
             Monster::spriteSheet.setDirection(dir.at(i));
         }
     }
@@ -84,6 +86,23 @@ void Monster::setHealth(float health) { Monster::health = health; }
 float Monster::getInitialHealth() const { return initialHealth; }
 
 void Monster::setInitialHealth(float initialHealth) { Monster::initialHealth = initialHealth; }
+
+bool Monster::isFinish(Trajet trajet) {
+    std::vector<Vector2> allDir = trajet.getEnemyTrajet();
+    if (CheckCollisionPointRec(allDir[3],this->getHitbox()) and !this->finish){
+        this->setFinish(true);
+        return true;
+    }
+    return false;
+}
+
+bool Monster::isFinish1() const {
+    return finish;
+}
+
+void Monster::setFinish(bool finish) {
+    Monster::finish = finish;
+}
 
 
 
