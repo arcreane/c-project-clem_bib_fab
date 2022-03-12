@@ -34,6 +34,8 @@ int main() {
            tileMapManager.placeTower(towersPlaced, inventoryHandler);
            tileMapManager.drawTowers(towersPlaced);
            timer += GetFrameTime();
+
+
            if (timer > 0.5f && i<= WaveMonsterList.size()) {
                createdMonsters.push_back(WaveMonsterList[i]);
                i++;

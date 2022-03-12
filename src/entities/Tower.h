@@ -27,9 +27,9 @@ public:
 
     void setId(const std::string &id);
 
-    const std::vector<Projectile> &getProjectiles() const;
+     std::vector<Projectile> &getProjectiles() ;
 
-    void setProjectiles(const std::vector<Projectile> &projectiles);
+    void setProjectiles( std::vector<Projectile> &projectiles);
 
     Tower(std::string id);
 
@@ -38,7 +38,7 @@ public:
     void setImage(const Texture2D &image);
 
     Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-          const Texture2D &image,Vector2 center,float radius, const std::vector<Projectile> &projectiles);
+          const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles);
 
     const Vector2 &getCenter() const;
 

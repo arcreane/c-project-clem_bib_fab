@@ -13,11 +13,11 @@ void Tower::setId(const std::string &id) {
     Tower::id = id;
 }
 
-const std::vector<Projectile> &Tower::getProjectiles() const {
+std::vector<Projectile> &Tower::getProjectiles(){
     return projectiles;
 }
 
-void Tower::setProjectiles(const std::vector<Projectile> &projectiles) {
+void Tower::setProjectiles(std::vector<Projectile> &projectiles) {
     Tower::projectiles = projectiles;
 }
 
@@ -26,7 +26,7 @@ Tower::Tower(std::string id) {
 }
 
 Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-             const Texture2D &image,Vector2 center,float radius, const std::vector<Projectile> &projectiles) : InfoEntities(damageDealt, timerFrame,
+             const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles) : InfoEntities(damageDealt, timerFrame,
                                                                                                 hitbox, speed), id(id),
                                                                                    image(image),
                                                                                    center(center),
