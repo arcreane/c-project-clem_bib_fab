@@ -7,8 +7,7 @@
 #include "Inventory.h"
 #include "../tile/TileMapManager.h"
 
-typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-                                     const Texture2D &image, const std::vector<Projectile> &projectiles);
+typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles);
 
 Inventory::Inventory() {
     int x=1,y=0;
@@ -93,10 +92,10 @@ void Inventory::setItems(const std::vector<Item> &items) {
 
 void Inventory::DrawAllItems() {
     for (int i = 0; i < Inventory::items.size(); ++i) {
-        DrawTextureRec(
+          DrawTextureRec(
                 Inventory::items.at(i).getImage(),
                 {0,0,64,64},
-                {Inventory::items.at(i).getRec().x,Inventory::items.at(i).getRec().y},
+                {Inventory::items.at(i).getRec().x ,Inventory::items.at(i).getRec().y},
                 WHITE
         );
     }

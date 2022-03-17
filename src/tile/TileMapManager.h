@@ -10,6 +10,7 @@
 #include "raylib.h"
 #include "../entities/Tower.h"
 #include "../listener/Inventory.h"
+#include "../entities/Monster.h"
 
 static constexpr  int WIDTH = 1600, HEIGHT = 800;
 static constexpr  int WIDTH_GAME = 1280, HEIGHT_GAME = 800;
@@ -36,6 +37,8 @@ public:
     void placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler);
 
     void drawTowers(std::vector<Tower> vector1);
+
+    void aim(std::vector<Monster> monsters, std::vector<Tower> &towersPlaced);
 };
 
 

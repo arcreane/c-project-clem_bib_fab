@@ -96,13 +96,14 @@ int main() {
                        wavesOccuring+=1;
                        textFramesCounter = 0;
                    }
-                   //TODO: comprendre pourquoi on a j = 5 Ã  un moment dans la premiere vague (hint: ca semble etre au point de passage de dÃ©part);
+                   //TODO: comprendre pourquoi on a j = 5 à un moment dans la premiere vague (hint: ca semble etre au point de passage de départ);
                    /*
                    std::cout<<"nombre de zombies dans la vague: "<<createdMonsters.size()<<std::endl;
                     */
                }
 
            }
+           tileMapManager.aim(createdMonsters,towersPlaced);
        EndDrawing();
    }
     return 0;
