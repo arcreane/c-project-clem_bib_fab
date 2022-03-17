@@ -148,17 +148,14 @@ void TileMapManager::aim(std::vector<Monster> monsters,std::vector<Tower> &tower
                 t.getProjectiles().at(0).setHitbox(actualMissileHitbox);
 
                 if(!CheckCollisionRecs(m.getHitbox(), t.getProjectiles().at(0).getHitbox())) {
-                    double deltaX = m.getHitbox().x - (t.getProjectiles().at(0).getCenter().x);
-                    double deltaY = m.getHitbox().y - (t.getProjectiles().at(0).getCenter().y);
+                    double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (t.getProjectiles().at(0).getCenter().x);
+                    double deltaY = (m.getHitbox().y) - (t.getProjectiles().at(0).getCenter().y);
 
                     float MissileAngle = atan2(deltaY, deltaX);
 
-                    t.getProjectiles().at(0).setCenter({t.getProjectiles().at(0).getCenter().x + 5 * cosf(MissileAngle),
-                                                        t.getProjectiles().at(0).getCenter().y +
-                                                        5 * sinf(MissileAngle)});
-/*
+                    t.getProjectiles().at(0).setCenter({t.getProjectiles().at(0).getCenter().x + 3 * cosf(MissileAngle),
+                                                        t.getProjectiles().at(0).getCenter().y + 3 * sinf(MissileAngle)});
                     DrawRectangleLines(t.getProjectiles().at(0).getCenter().x,  t.getProjectiles().at(0).getCenter().y, t.getProjectiles().at(0).getHitbox().width, t.getProjectiles().at(0).getHitbox().height, GREEN);
-*/
 
 
 
@@ -166,13 +163,14 @@ void TileMapManager::aim(std::vector<Monster> monsters,std::vector<Tower> &tower
                     DrawTexturePro(
                             t.getProjectiles().at(0).getImage(),
                             {0, 0, 21, 39},
-                            {t.getProjectiles().at(0).getCenter().x +f, t.getProjectiles().at(0).getCenter().y+f, 21, 39},
-                            {32, 32},
+                            {t.getProjectiles().at(0).getCenter().x + 11, t.getProjectiles().at(0).getCenter().y + 20, 22, 40},
+                            {11, 20},
                             t.getAngle(),
                             WHITE
                     );
                 }else{
-                    std::destroy_at(std::addressof(t.getProjectiles().at(0)));
+                    auto center = Vector2{t.getHitbox().x,t.getHitbox().y};
+                    t.getProjectiles().at(0).setCenter(center);
                 }
             }
         }
