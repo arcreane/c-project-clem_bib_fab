@@ -17,6 +17,7 @@ class Monster : public InfoEntities {
     int monsterType;
     float health,initialHealth;
     bool finish = false;
+    float money;
 public:
     bool isFinish1() const;
 
@@ -46,8 +47,13 @@ public:
 
     void setSpriteSheet(const SpriteSheet &spriteSheet);
 
+    float getMoney() const;
+
+    void setMoney(float money);
+
     Monster(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, float health, SpriteSheet &spriteSheet,
             int monsterType);
+    Monster(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, float health, SpriteSheet &spriteSheet, int monsterType, float money);
 
     void drawHealthbox();
     bool isAlive();

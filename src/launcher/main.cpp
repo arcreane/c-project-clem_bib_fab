@@ -34,7 +34,8 @@ int main() {
     int i = 0;
     int wavesOccuring = 0;
     int textFramesCounter = 0;
-    char message[15] = "WAVE %d" ;
+    char messageToFormat[15] = "WAVE %d" ;
+    char message[15];
     char msgHealth[10] = "Vie : ";
 
     while(!WindowShouldClose()){
@@ -55,8 +56,7 @@ int main() {
            if(WaveMonsterList.empty() && wavesOccuring < 3){
                WaveMonsterList = allWaves[wavesOccuring].getListOfMonsters();
                i=0;
-               //affiche toujours le meme numero de vague, correctif en cours
-               snprintf(message, 20, message , wavesOccuring+1);
+               snprintf(message, 15, messageToFormat , wavesOccuring);
            }
             DrawText(TextSubtext(message, 0, textFramesCounter/14), 580, 550, 33, WHITE);
             if (timer > 0.5f && i< WaveMonsterList.size()) {
@@ -77,29 +77,16 @@ int main() {
                //damage du monstre si il arrive au bout
                if (createdMonsters[j].isFinish(monsterTrajet)){
                    p1.setHealth(p1.getHealth()-createdMonsters[j].getDamageDealt());
+                   createdMonsters[j].setHealth(0);
                }
                if (!createdMonsters[j].isAlive()){
+                   p1.setMoney(p1.getMoney() + createdMonsters[j].getMoney());
                    createdMonsters.erase(createdMonsters.begin()+j);
-                   //gain en fonction du type de monstre
-                   switch (createdMonsters[j].getMonsterType()) {
-                       case 0:
-                           p1.setMoney(p1.getMoney()+1);
-                           break;
-                       case 96:
-                           p1.setMoney(p1.getMoney()+2);
-                           break;
-                       default:
-                           break;
-                   }
                    if(createdMonsters.empty()){
                        WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
                        wavesOccuring+=1;
                        textFramesCounter = 0;
                    }
-                   //TODO: comprendre pourquoi on a j = 5 à un moment dans la premiere vague (hint: ca semble etre au point de passage de départ);
-                   /*
-                   std::cout<<"nombre de zombies dans la vague: "<<createdMonsters.size()<<std::endl;
-                    */
                }
 
            }

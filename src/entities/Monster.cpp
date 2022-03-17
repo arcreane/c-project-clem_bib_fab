@@ -8,6 +8,10 @@ Monster::Monster(float damageDealt, float timerFrame, Rectangle &hitbox, int spe
         : spriteSheet(spriteSheet),monsterType(monsterType),health(health),initialHealth(health), InfoEntities(damageDealt, timerFrame, hitbox, speed) {
 }
 
+Monster::Monster(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, float health, SpriteSheet &spriteSheet, int monsterType, float money)
+        : spriteSheet(spriteSheet),monsterType(monsterType),health(health),initialHealth(health),money(money), InfoEntities(damageDealt, timerFrame, hitbox, speed) {
+}
+
 void Monster::drawHealthbox() {
     DrawRectangleLines(InfoEntities::getHitbox().x, InfoEntities::getHitbox().y-5, InfoEntities::getHitbox().width,5,RED);
     DrawRectangle(InfoEntities::getHitbox().x, InfoEntities::getHitbox().y-5,  (health/initialHealth)*(InfoEntities::getHitbox().width),5,GREEN);
@@ -25,27 +29,28 @@ void Monster::changeDirectionIfNeeded(Trajet trajet) {
     std::vector<int> dir = trajet.getEnemyTrajetDir();
     for(int i = 0;i < allDir.size(); i++){
         if (CheckCollisionPointRec(allDir.at(i),this->getHitbox())){
-            health--;
             Monster::spriteSheet.setDirection(dir.at(i));
         }
     }
 }
 
 void Monster::moveMonster(Trajet trajet) {
-    changeDirectionIfNeeded(trajet);
-    switch ((int) this->spriteSheet.getDirection()) {
-        case 0:
-            this->getHitbox().y += (float) this->getSpeed();
-            break;
-        case 1:
-            this->getHitbox().x -= (float) this->getSpeed();
-            break;
-        case 2:
-            this->getHitbox().x += (float) this->getSpeed();
-            break;
-        case 3:
-            this->getHitbox().y -= (float) this->getSpeed();
-            break;
+    for (int i = 0; i < this->getSpeed(); ++i) {
+        changeDirectionIfNeeded(trajet);
+        switch ((int) this->spriteSheet.getDirection()) {
+            case 0:
+                this->getHitbox().y += 1;
+                break;
+            case 1:
+                this->getHitbox().x -= 1;
+                break;
+            case 2:
+                this->getHitbox().x += 1;
+                break;
+            case 3:
+                this->getHitbox().y -= 1;
+                break;
+        }
     }
 }
 
@@ -100,6 +105,14 @@ bool Monster::isFinish1() const {
 
 void Monster::setFinish(bool finish) {
     Monster::finish = finish;
+}
+
+float Monster::getMoney() const {
+    return money;
+}
+
+void Monster::setMoney(float money) {
+    Monster::money = money;
 }
 
 

@@ -39,6 +39,8 @@ public:
     void drawTowers(std::vector<Tower> vector1);
 
     void aim(std::vector<Monster> monsters, std::vector<Tower> &towersPlaced);
+
+    bool isMonsterDetected(std::vector<Monster> monsters, Tower t);
 };
 
 

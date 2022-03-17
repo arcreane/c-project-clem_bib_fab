@@ -11,8 +11,7 @@ constexpr  float WIDTH_Z = 32, HEIGHT_Z = 44;
 
 Waves::Waves(int id, int numberOfZombies, int numberOfSkeletons) : nbOfMonsters(numberOfZombies + numberOfSkeletons), id(id),
                                                                                      numberOfZombies(numberOfZombies),
-                                                                                     numberOfSkeletons(
-                                                                                             numberOfSkeletons) {
+                                                                                     numberOfSkeletons(numberOfSkeletons) {
     initListOfMonsters();
 }
 
@@ -72,9 +71,9 @@ void Waves::initListOfMonsters(){
                              0.0,
                              recZombies,2,5,
                               *(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png")))
-                              ,0);
+                              ,0,1);
     Monster skeleton = Monster(5,0.0,
-                               recSkeleton,2,5,*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96);
+                               recSkeleton,2,5,*(new SpriteSheet(0,3, 32, 64,LoadTexture("../resources/zombie_n_skeleton2.png"))),96,2);
 
     for (int i = 0; i < Waves::numberOfZombies; ++i) {
         initList.push_back(zombie);
