@@ -72,7 +72,7 @@ TileMapManager::TileMapManager(const char* file) {
     }
 }
 
-void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler) {
+void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler,Player &player) {
     bool notPlacedYet = true;
     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         Vector2 mvector = GetMousePosition();
@@ -85,18 +85,16 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                     }
                 }
                 if (notPlacedYet) {
-                    Rectangle hitboxMissile = Rectangle{0, 0, 21, 39};
-                    float x_pos = place.x + 21/2;
-                    float y_pos = place.y + 39/2;
+                    float x_pos = (place.x + 64.0f/2);
+                    float y_pos = (place.y + 64.0f/2);
+                    Rectangle hitboxMissile = Rectangle{x_pos, y_pos, 21, 39};
 
-                    Projectile missile = Projectile(5, 0, hitboxMissile, 3,{x_pos, y_pos},  "1",
-                                                    LoadTexture("../resources/missile.png"), 0);
+                    Projectile missile = Projectile(0, 0, hitboxMissile, 3,{x_pos, y_pos},  "1",LoadTexture("../resources/missile.png"), 0);
 
                     std::vector<Projectile> listMissiles;
                     listMissiles.push_back(missile);
                     Tower tower = inventoryHandler.getCreatorMap().find(
                             inventoryHandler.getSItem().getId())->second(
-                                    1,
                                     0.0,
                                     place,
                                     1,
@@ -105,7 +103,10 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                                     {place.x + 64/2,place.y + 64/2},
                                     200,
                                     listMissiles);
-                    towersPlaced.push_back(tower);
+                    if (tower.getCost() <= player.getMoney()) {
+                        towersPlaced.push_back(tower);
+                        player.setMoney(player.getMoney() - tower.getCost());
+                    }
                 }
             }
         }
@@ -115,9 +116,6 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
 void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
     for (int i = 0; i < towersPlaced.size(); ++i) {
         Tower t = towersPlaced.at(i);
-/*
-        std::cout <<t.getAngle()<<std::endl;
-*/
         DrawTexturePro(
                 t.getImage(),
                 {0,0,64,64},
@@ -128,13 +126,12 @@ void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
         DrawCircleLines(t.getCenter().x,t.getCenter().y,t.getRadius(),GREEN);
     }
 }
-void TileMapManager::aim(std::vector<Monster> monsters,std::vector<Tower> &towersPlaced){
+void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced){
 
     for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
     for (auto & t : towersPlaced) {
-        float f =64/2;
-        for (int i = 0; i < monsters.size() ; ++i) {
-            Monster m = monsters.at(i);
+        float f =64.0f/2;
+        for (auto & m : monsters) {
             if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster()) {
                 double angle =
                         (atan2((m.getHitbox().y + f / 1.5) - t.getCenter().y, (m.getHitbox().x + f) - t.getCenter().x) -
@@ -142,37 +139,38 @@ void TileMapManager::aim(std::vector<Monster> monsters,std::vector<Tower> &tower
                         180 / PI;
                 t.setAngle(angle + 90);
                 t.setIsFollowingMonster(true);
+                Projectile &projectile =  t.getProjectiles().at(0);
+                Rectangle actualMissileHitbox = {projectile.getCenter().x, projectile.getCenter().y, 21,39};
+                projectile.setHitbox(actualMissileHitbox);
 
-                Rectangle actualMissileHitbox = {t.getProjectiles().at(0).getCenter().x, t.getProjectiles().at(0).getCenter().y, 21,39};
-                t.getProjectiles().at(0).setHitbox(actualMissileHitbox);
-
-                if(!CheckCollisionRecs(m.getHitbox(), t.getProjectiles().at(0).getHitbox())) {
-                    double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (t.getProjectiles().at(0).getCenter().x);
-                    double deltaY = (m.getHitbox().y) - (t.getProjectiles().at(0).getCenter().y);
+                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox())) {
+                    double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (projectile.getCenter().x);
+                    double deltaY = (m.getHitbox().y) - (projectile.getCenter().y);
 
                     float MissileAngle = atan2(deltaY, deltaX);
 
-                    t.getProjectiles().at(0).setCenter({t.getProjectiles().at(0).getCenter().x + 3 * cosf(MissileAngle),
-                                                        t.getProjectiles().at(0).getCenter().y + 3 * sinf(MissileAngle)});
-                    DrawRectangleLines(t.getProjectiles().at(0).getCenter().x,  t.getProjectiles().at(0).getCenter().y, t.getProjectiles().at(0).getHitbox().width, t.getProjectiles().at(0).getHitbox().height, GREEN);
+                    projectile.setCenter({projectile.getCenter().x + 3 * cosf(MissileAngle),
+                                                        projectile.getCenter().y + 3 * sinf(MissileAngle)});
+                    DrawRectangleLines(projectile.getCenter().x,  projectile.getCenter().y, projectile.getHitbox().width, projectile.getHitbox().height, GREEN);
 
 
 
 
                     DrawTexturePro(
-                            t.getProjectiles().at(0).getImage(),
+                            projectile.getImage(),
                             {0, 0, 21, 39},
-                            {t.getProjectiles().at(0).getCenter().x + 11, t.getProjectiles().at(0).getCenter().y + 20, 22, 40},
-                            {11, 20},
+                            {projectile.getCenter().x + 10, projectile.getCenter().y + 19, 21, 39},
+                            {10, 19},
                             t.getAngle(),
                             WHITE
                     );
                 }else{
-                    auto center = Vector2{t.getHitbox().x,t.getHitbox().y};
+                    m.setHealth(m.getHealth() - t.getDamageDealt());
+                    auto center = Vector2{t.getHitbox().x + f,t.getHitbox().y + f};
                     t.getProjectiles().at(0).setCenter(center);
                 }
             }else if (!isMonsterDetected(monsters,t)){
-                auto center = Vector2{t.getHitbox().x,t.getHitbox().y};
+                auto center = Vector2{t.getHitbox().x + f,t.getHitbox().y + f};
                 t.getProjectiles().at(0).setCenter(center);
             }
         }

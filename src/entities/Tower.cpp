@@ -26,11 +26,12 @@ Tower::Tower(std::string id) {
 }
 
 Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-             const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles) : InfoEntities(damageDealt, timerFrame,
+             const Texture2D &image,Vector2 center,float radius, int cost ,std::vector<Projectile> &projectiles) : InfoEntities(damageDealt, timerFrame,
                                                                                                 hitbox, speed), id(id),
                                                                                    image(image),
                                                                                    center(center),
                                                                                    radius(radius),
+                                                                                   cost(cost),
                                                                                    projectiles(projectiles) {}
 
 const Texture2D &Tower::getImage() const {
@@ -72,3 +73,7 @@ bool Tower::isItFollowingMonster() const {
 void Tower::setIsFollowingMonster(bool isFollowingMonster) {
     Tower::isFollowingMonster = isFollowingMonster;
 }
+
+float Tower::getCost() const { return cost; }
+
+void Tower::setCost(float cost) { Tower::cost = cost; }

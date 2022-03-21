@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "../tile/TileMapManager.h"
 
-typedef Tower (*createTowerFunction)(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles);
+typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles);
 
 Inventory::Inventory() {
     int x=1,y=0;
@@ -16,7 +16,7 @@ Inventory::Inventory() {
     while((int) ct != numberOfTower) {
             i++;
             path = "../resources/towers/Tower" + std::to_string((x)) + ".png";
-            items.push_back((*new Item({WIDTH_GAME + firstx + (i * offsetx) + (i*64) , firsty + (y*offsety) + (y*64),64,64}, LoadTexture(path.c_str()),"Tower" + std::to_string((x)))));
+            items.push_back((*new Item({WIDTH_GAME + firstx + (i * offsetx) + (i*64) , firsty + (y*offsety) + (y*64),64,64}, LoadTexture(path.c_str()),"Tower" + std::to_string((x)),cost[i])));
             ct++;
             x++;
         if (i == numberOfTowerOnLine - 1){
@@ -24,7 +24,7 @@ Inventory::Inventory() {
             y++;
         }
     }
-    Inventory::sItem = (*new Item({WIDTH_GAME + 128,93,64,64},LoadTexture("../resources/towers/Tower1.png"),"Tower1"));
+    Inventory::sItem = (*new Item({WIDTH_GAME + 128,93,64,64},LoadTexture("../resources/towers/Tower1.png"),"Tower1",cost[0]));
     Inventory::creatorMap.emplace("Tower1",&(Inventory::createT1));
     Inventory::creatorMap.emplace("Tower2",&(Inventory::createT2));
     Inventory::creatorMap.emplace("Tower3",&(Inventory::createT3));
@@ -79,6 +79,7 @@ const Item Inventory::getSItem() const {
 void Inventory::setSItem(const Item &sItem) {
     Inventory::sItem.setId(sItem.getId());
     Inventory::sItem.setImage(sItem.getImage());
+    Inventory::sItem.setCost(sItem.getCost());
 }
 
 const std::vector<Item> &Inventory::getItems() const {
@@ -105,6 +106,10 @@ void Inventory::DrawAllItems() {
             {Inventory::sItem.getRec().x,Inventory::sItem.getRec().y},
             WHITE
     );
+    char charValue[2];
+    sprintf(charValue, "%d", Inventory::sItem.getCost());
+    DrawText(charValue, Inventory::sItem.getRec().x + 66, Inventory::sItem.getRec().y + 64, 24, BLACK);
+    DrawTexture(LoadTexture("../resources/gold.png"), Inventory::sItem.getRec().x + 80, Inventory::sItem.getRec().y + 62, WHITE);
 }
 
 void Inventory::checkIfneedToChangeSItem(){

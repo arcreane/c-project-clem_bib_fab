@@ -8,7 +8,7 @@
 
 Item::Item() {}
 
-Item::Item(const Rectangle &rec,  const Texture &image,  const std::string &id) : rec(rec), image(image), id(id) {}
+Item::Item(const Rectangle &rec,  const Texture &image, const std::string &id , int cost) : rec(rec), image(image), cost(cost), id(id) {}
 
 const Rectangle &Item::getRec() const {
     return rec;
@@ -33,4 +33,8 @@ const std::string &Item::getId() const {
 void Item::setId(const std::string &id) {
     Item::id = id;
 }
+
+int Item::getCost() const { return cost; }
+
+void Item::setCost(int cost) { Item::cost = cost; }
 

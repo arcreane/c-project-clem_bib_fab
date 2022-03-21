@@ -14,11 +14,12 @@ class Item {
     Rectangle rec;
     Texture image;
     std::string id;
+    int cost;
 
 public:
     Item();
 
-    Item(const Rectangle &rec, const Texture &image, const std::string &id);
+    Item(const Rectangle &rec, const Texture &image, const std::string &id, int cost);
 
     const Rectangle &getRec() const;
 
@@ -31,6 +32,10 @@ public:
     const std::string &getId() const;
 
     void setId(const std::string &id);
+
+    int getCost() const;
+
+    void setCost(int cost);
 
 };
 

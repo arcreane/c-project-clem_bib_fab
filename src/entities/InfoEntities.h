@@ -10,7 +10,7 @@
 #include "../graphics/SpriteSheet.h"
 
 class InfoEntities {
-    float damageDealt;
+    float damageDealt = 1;
     float timerFrame;
     Rectangle hitbox;
     int speed = 1;

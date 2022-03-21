@@ -9,13 +9,15 @@
 #include "../entities/Player.h"
 #include "../controller/Waves.h"
 
-
+void drawEndGameScreen(Texture2D tex,int posx);
 int main() {
     InitWindow(WIDTH,HEIGHT,"tower defense");
     Player p1 = Player(25,5) ;
     std::vector<Tower> towersPlaced;
     Inventory inventoryHandler = Inventory();
     SetTargetFPS(60);
+    Texture2D gg = LoadTexture("../resources/GG.png");
+    Texture2D gameOver = LoadTexture("../resources/game_over.png");
     Texture2D bg = LoadTexture("../resources/tower_defense.png");
     Texture2D inventory = LoadTexture("../resources/inventory.png");
     Trajet monsterTrajet = Trajet();
@@ -38,14 +40,14 @@ int main() {
     char message[15];
     char msgHealth[10] = "Vie : ";
 
-    while(!WindowShouldClose()){
+    while(!WindowShouldClose() && p1.getHealth() > 0 && allWaves.size() > wavesOccuring){
        BeginDrawing();
            ClearBackground(RAYWHITE);
            DrawTexture(bg,0,0,WHITE);
            DrawTexture(inventory,1280,0, WHITE);
            inventoryHandler.DrawAllItems();
            inventoryHandler.checkIfneedToChangeSItem();
-           tileMapManager.placeTower(towersPlaced, inventoryHandler);
+           tileMapManager.placeTower(towersPlaced, inventoryHandler, p1);
            tileMapManager.drawTowers(towersPlaced);
            p1.drawHealth(msgHealth);
            p1.drawMoney();
@@ -93,5 +95,19 @@ int main() {
            tileMapManager.aim(createdMonsters,towersPlaced);
        EndDrawing();
    }
+    if (p1.getHealth() <= 0 ) { drawEndGameScreen(gameOver,WIDTH / 4); }
+    else if(allWaves.size() <= wavesOccuring){
+        drawEndGameScreen(gg,0);
+    }
     return 0;
 }
+
+void drawEndGameScreen(Texture2D tex,int posx){
+    while(!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        DrawTexture(tex, posx, 0, WHITE);
+        EndDrawing();
+    }
+}
+
