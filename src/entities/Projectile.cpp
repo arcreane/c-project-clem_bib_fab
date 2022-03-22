@@ -5,14 +5,8 @@
 #include "Projectile.h"
 
 
-Projectile::Projectile() {
+Projectile::Projectile() {}
 
-}
-
-Projectile::Projectile(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, Vector2 center, const std::string &id,
-             const Texture2D &image,float radius) : InfoEntities(damageDealt, timerFrame,hitbox, speed), center(center), id(id),
-                                                                                                               image(image),
-                                                                                                               radius(radius) {}
 
 const std::string &Projectile::getId() const {
     return id;
@@ -31,22 +25,6 @@ void Projectile::setImage(const Texture2D &image) {
     Projectile::image = image;
 }
 
-float Projectile::getRadius() const {
-    return radius;
-}
-
-void Projectile::setRadius(float radius) {
-    Projectile::radius = radius;
-}
-
-double Projectile::getAngle() const {
-    return angle;
-}
-
-void Projectile::setAngle(double angle) {
-    Projectile::angle = angle;
-}
-
 const Vector2 &Projectile::getCenter() const {
     return center;
 }
@@ -54,3 +32,18 @@ const Vector2 &Projectile::getCenter() const {
 void Projectile::setCenter(const Vector2 &center)  {
     Projectile::center = center;
 }
+
+Projectile::Projectile(const std::string &id,  Rectangle &hitbox,float speed, const Vector2 &center, const Texture2D &image) : id(id),
+                                                                                                            speed(speed),
+                                                                                                            center(center),
+                                                                                                            image(image),
+                                                                                                            hitbox(hitbox){}
+
+float Projectile::getSpeed() const { return speed; }
+
+void Projectile::setSpeed(float speed) { Projectile::speed = speed; }
+
+const Rectangle &Projectile::getHitbox() const { return hitbox; }
+
+void Projectile::setHitbox(const Rectangle &hitbox) { Projectile::hitbox = hitbox; }
+

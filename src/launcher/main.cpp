@@ -78,18 +78,18 @@ int main() {
                 //damage du monstre si il arrive au bout
                 if (createdMonsters[j].isFinish(monsterTrajet)) {
                     p1.setHealth(p1.getHealth() - createdMonsters[j].getDamageDealt());
-                    //createdMonsters[j].setHealth(0);
+                    createdMonsters.erase(createdMonsters.begin() + j);
                 }
                 //si le monstre meurt
                 if (!createdMonsters[j].isAlive()) {
                     p1.setMoney(p1.getMoney() + createdMonsters[j].getMoney());
                     createdMonsters.erase(createdMonsters.begin() + j);
-                    //si les monstres de la waves sont mort, on passe à la wave suivante
-                    if (createdMonsters.empty()) {
-                        WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
-                        wavesOccuring += 1;
-                        textFramesCounter = 0;
-                    }
+                }
+                //si les monstres de la waves sont mort, on passe à la wave suivant
+                if (createdMonsters.empty()) {
+                    WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
+                    wavesOccuring += 1;
+                    textFramesCounter = 0;
                 }
 
             }

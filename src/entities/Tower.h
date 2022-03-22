@@ -41,6 +41,9 @@ public:
     Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
           const Texture2D &image,Vector2 center,float radius, int cost, Projectile &projectile);
 
+    Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
+                const Texture2D &image,Vector2 center,float radius, int cost ,std::string pathToMissile);
+
     const Vector2 &getCenter() const;
 
     void setCenter(const Vector2 &center);

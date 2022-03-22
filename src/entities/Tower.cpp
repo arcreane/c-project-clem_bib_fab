@@ -34,6 +34,17 @@ Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,c
                                                                                    cost(cost),
                                                                                    projectile(projectile) {}
 
+Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
+             const Texture2D &image,Vector2 center,float radius, int cost ,std::string pathToMissile) : InfoEntities(damageDealt, timerFrame,hitbox, speed), id(id),
+                                                                                                     image(image),
+                                                                                                     center(center),
+                                                                                                     radius(radius),cost(cost){
+    Texture2D tex  = LoadTexture(pathToMissile.c_str());
+    Rectangle hitboxMissile = {hitbox.x,hitbox.y,static_cast<float>(tex.width),static_cast<float>(tex.height)};
+    Vector2 centerMissile = {hitbox.x,hitbox.y};
+    this->projectile = Projectile(id + "projectile",hitboxMissile, 3.0f, centerMissile,tex);
+}
+
 const Texture2D &Tower::getImage() const {
     return image;
 }

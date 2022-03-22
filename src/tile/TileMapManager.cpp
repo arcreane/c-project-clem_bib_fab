@@ -93,7 +93,7 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                     float y_pos = (place.y + RATIO);
                     Rectangle hitboxMissile = Rectangle{x_pos, y_pos, 21, 39};
 
-                    Projectile missile = Projectile(0, 0, hitboxMissile, 3,{x_pos, y_pos},  "1",LoadTexture("../resources/missile.png"), 0);
+                    Projectile missile = Projectile("projectile" ,hitboxMissile, 3, {x_pos, y_pos} ,LoadTexture("../resources/missile.png"));
 
                     //création de la tower
                     Tower tower = inventoryHandler.getCreatorMap().find(
@@ -104,9 +104,9 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                                     inventoryHandler.getSItem().getId(),
                                     inventoryHandler.getSItem().getImage(),
                                     {place.x + RATIO,place.y + RATIO},
-                                    200,
-                                    missile);
-                    //si le joueur à assez d'argent pour acheter la tower
+                                    200
+                                    );
+					//si le joueur à assez d'argent pour acheter la tower               
                     if (tower.getCost() <= player.getMoney()) {
                         towersPlaced.push_back(tower);
                         player.setMoney(player.getMoney() - tower.getCost());

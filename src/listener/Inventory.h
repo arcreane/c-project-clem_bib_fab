@@ -18,20 +18,20 @@ class Inventory {
     float firstx=6,firsty=264,selectx=128,selecty=93,offsetx=14,offsety=14;
     const int numberOfTower = 5;
     const int numberOfTowerOnLine = 4;
-    typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile);
+    typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius);
     Item sItem ;
     std::vector<Item> items;
     std::map<std::string,createTowerFunction> creatorMap;
-    static Tower createT1(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile)
-                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower1", LoadTexture("../resources/towers/Tower1.png"),center,radius,cost[0],projectile)); };
-    static Tower createT2(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile)
-                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower2",LoadTexture("../resources/towers/Tower2.png"),center,radius,cost[1],projectile)); };
-    static Tower createT3(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile)
-                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower3",LoadTexture("../resources/towers/Tower3.png"),center,radius,cost[2],projectile)); };
-    static Tower createT4(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile)
-                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower4",LoadTexture("../resources/towers/Tower4.png"),center,radius,cost[3],projectile)); };
-    static Tower createT5(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile projectile)
-                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower5",LoadTexture("../resources/towers/Tower5.png"),center,radius,cost[4],projectile)); };
+    static Tower createT1(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius)
+                          { return (*new Tower(1,timerFrame,hitbox,1,"Tower1", LoadTexture("../resources/towers/Tower1.png"),center,radius,cost[0],"../resources/missile.png")); };
+    static Tower createT2(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius)
+                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower2",LoadTexture("../resources/towers/Tower2.png"),center,radius,cost[1],"../resources/missile2.png")); };
+    static Tower createT3(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius)
+                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower3",LoadTexture("../resources/towers/Tower3.png"),center,radius,cost[2],"../resources/missile.png")); };
+    static Tower createT4(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius)
+                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower4",LoadTexture("../resources/towers/Tower4.png"),center,radius,cost[3],"../resources/missile.png")); };
+    static Tower createT5(float timerFrame, Rectangle &hitbox, int speed, const std::string &id,const Texture2D &image,Vector2 center,float radius)
+                          { return (*new Tower(2,timerFrame,hitbox,1,"Tower5",LoadTexture("../resources/towers/Tower5.png"),center,radius,cost[4],"../resources/missile.png")); };
 public:
     Inventory();
 

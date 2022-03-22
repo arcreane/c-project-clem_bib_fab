@@ -9,24 +9,21 @@
 #include "InfoEntities.h"
 
 
-class Projectile : public InfoEntities{
+class Projectile {
     std::string id;
     float speed;
     Vector2 center;
+    Texture2D image;
+    Rectangle hitbox;
 public:
     const Vector2 &getCenter() const;
 
     void setCenter(const Vector2 &center) ;
 
-private:
-    Texture2D image;
-    float radius;
-    double angle = 0;
 public:
     Projectile();
 
-    Projectile(float damageDealt , float timerFrame, Rectangle &hitbox, int speed, Vector2 center, const std::string &id,
-               const Texture2D &image,float radius);
+    Projectile(const std::string &id, Rectangle &hitbox, float speed, const Vector2 &center, const Texture2D &image);
 
     const std::string &getId() const;
 
@@ -36,13 +33,13 @@ public:
 
     void setImage(const Texture2D &image);
 
-    float getRadius() const;
+    float getSpeed() const;
 
-    void setRadius(float radius);
+    void setSpeed(float speed);
 
-    double getAngle() const;
+    const Rectangle &getHitbox() const;
 
-    void setAngle(double angle);
+    void setHitbox(const Rectangle &hitbox);
 
 };
 
