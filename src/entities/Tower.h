@@ -19,7 +19,7 @@ class Tower : public InfoEntities{
     float radius;
     double angle = 0;
     bool isFollowingMonster = false;
-    std::vector<Projectile> projectiles;
+    Projectile projectile;
     int cost = 2;
 
 public:
@@ -28,9 +28,9 @@ public:
 
     void setId(const std::string &id);
 
-     std::vector<Projectile> &getProjectiles() ;
+     Projectile &getProjectile() ;
 
-    void setProjectiles( std::vector<Projectile> &projectiles);
+    void setProjectile( Projectile &projectile);
 
     Tower(std::string id);
 
@@ -39,7 +39,7 @@ public:
     void setImage(const Texture2D &image);
 
     Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-          const Texture2D &image,Vector2 center,float radius, int cost, std::vector<Projectile> &projectiles);
+          const Texture2D &image,Vector2 center,float radius, int cost, Projectile &projectile);
 
     const Vector2 &getCenter() const;
 

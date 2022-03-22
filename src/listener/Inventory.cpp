@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "../tile/TileMapManager.h"
 
-typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, std::vector<Projectile> &projectiles);
+typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile &projectile);
 
 Inventory::Inventory() {
     int x=1,y=0;
@@ -109,7 +109,7 @@ void Inventory::DrawAllItems() {
     char charValue[2];
     sprintf(charValue, "%d", Inventory::sItem.getCost());
     DrawText(charValue, Inventory::sItem.getRec().x + 66, Inventory::sItem.getRec().y + 64, 24, BLACK);
-    DrawTexture(LoadTexture("../resources/gold.png"), Inventory::sItem.getRec().x + 80, Inventory::sItem.getRec().y + 62, WHITE);
+    DrawTexture(goldTexture, Inventory::sItem.getRec().x + 80, Inventory::sItem.getRec().y + 62, WHITE);
 }
 
 void Inventory::checkIfneedToChangeSItem(){
@@ -124,11 +124,11 @@ void Inventory::checkIfneedToChangeSItem(){
     }
 }
 
-const std::map<std::string, createTowerFunction> &Inventory::getCreatorMap() const {
-    return creatorMap;
-}
-
 void Inventory::setCreatorMap(const std::map<std::string, createTowerFunction> &creatorMap) {
     Inventory::creatorMap = creatorMap;
+}
+
+const std::map<std::string, Inventory::createTowerFunction> &Inventory::getCreatorMap() const {
+    return creatorMap;
 }
 

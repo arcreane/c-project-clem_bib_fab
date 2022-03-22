@@ -1,12 +1,8 @@
-#include <iostream>
 #include<raylib.h>
 #include <string>
-#include <charconv>
 #include "../entities/Tower.h"
 #include "../entities/Monster.h"
-#include "../entities/Trajet.h"
 #include "../tile/TileMapManager.h"
-#include "../entities/Player.h"
 #include "../controller/Waves.h"
 
 void drawEndGameScreen(Texture2D tex,int posx);

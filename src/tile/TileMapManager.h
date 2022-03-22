@@ -15,7 +15,7 @@
 static constexpr  int WIDTH = 1600, HEIGHT = 800;
 static constexpr  int WIDTH_GAME = 1280, HEIGHT_GAME = 800;
 static constexpr  int WIDTH_Z = 32, HEIGHT_Z = 44;
-
+static constexpr  int RATIO = 64/2;
 class TileMapManager {
     std::vector<Rectangle> placesTower;
     std::vector<Rectangle> availablePlacesTower;

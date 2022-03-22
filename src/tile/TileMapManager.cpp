@@ -85,14 +85,12 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                     }
                 }
                 if (notPlacedYet) {
-                    float x_pos = (place.x + 64.0f/2);
-                    float y_pos = (place.y + 64.0f/2);
+                    float x_pos = (place.x + RATIO);
+                    float y_pos = (place.y + RATIO);
                     Rectangle hitboxMissile = Rectangle{x_pos, y_pos, 21, 39};
 
                     Projectile missile = Projectile(0, 0, hitboxMissile, 3,{x_pos, y_pos},  "1",LoadTexture("../resources/missile.png"), 0);
 
-                    std::vector<Projectile> listMissiles;
-                    listMissiles.push_back(missile);
                     Tower tower = inventoryHandler.getCreatorMap().find(
                             inventoryHandler.getSItem().getId())->second(
                                     0.0,
@@ -100,9 +98,9 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                                     1,
                                     inventoryHandler.getSItem().getId(),
                                     inventoryHandler.getSItem().getImage(),
-                                    {place.x + 64/2,place.y + 64/2},
+                                    {place.x + RATIO,place.y + RATIO},
                                     200,
-                                    listMissiles);
+                                    missile);
                     if (tower.getCost() <= player.getMoney()) {
                         towersPlaced.push_back(tower);
                         player.setMoney(player.getMoney() - tower.getCost());
@@ -130,16 +128,15 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
 
     for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
     for (auto & t : towersPlaced) {
-        float f =64.0f/2;
         for (auto & m : monsters) {
             if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster()) {
                 double angle =
-                        (atan2((m.getHitbox().y + f / 1.5) - t.getCenter().y, (m.getHitbox().x + f) - t.getCenter().x) -
-                         atan2((t.getHitbox().y + f) - t.getCenter().y, (t.getHitbox().x + f) - t.getCenter().x)) *
+                        (atan2((m.getHitbox().y + RATIO / 1.5) - t.getCenter().y, (m.getHitbox().x + RATIO) - t.getCenter().x) -
+                         atan2((t.getHitbox().y + RATIO) - t.getCenter().y, (t.getHitbox().x + RATIO) - t.getCenter().x)) *
                         180 / PI;
                 t.setAngle(angle + 90);
                 t.setIsFollowingMonster(true);
-                Projectile &projectile =  t.getProjectiles().at(0);
+                Projectile &projectile =  t.getProjectile();
                 Rectangle actualMissileHitbox = {projectile.getCenter().x, projectile.getCenter().y, 21,39};
                 projectile.setHitbox(actualMissileHitbox);
 
@@ -166,12 +163,12 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                     );
                 }else{
                     m.setHealth(m.getHealth() - t.getDamageDealt());
-                    auto center = Vector2{t.getHitbox().x + f,t.getHitbox().y + f};
-                    t.getProjectiles().at(0).setCenter(center);
+                    auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
+                    t.getProjectile().setCenter(center);
                 }
             }else if (!isMonsterDetected(monsters,t)){
-                auto center = Vector2{t.getHitbox().x + f,t.getHitbox().y + f};
-                t.getProjectiles().at(0).setCenter(center);
+                auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
+                t.getProjectile().setCenter(center);
             }
         }
     }
