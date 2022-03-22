@@ -92,10 +92,6 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                 if (notPlacedYet) {
                     float x_pos = (place.x + RATIO);
                     float y_pos = (place.y + RATIO);
-                    Rectangle hitboxMissile = Rectangle{x_pos, y_pos, 21, 39};
-
-                    Projectile missile = Projectile("projectile" ,hitboxMissile, 3, {x_pos, y_pos} ,LoadTexture("../resources/missile.png"));
-
                     //création de la tower
                     Tower tower = inventoryHandler.getCreatorMap().find(
                             inventoryHandler.getSItem().getId())->second(
@@ -132,13 +128,13 @@ void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
     }
 }
 //tir de missile téléguidés lors de détection
-void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced){
+void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced, float &timer){
 
     for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
     for (auto & t : towersPlaced) {
         for (auto & m : monsters) {
             //si le monstre rentre dans la zone de détection
-            if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster()) {
+            if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster() ) {
                 double angle =
                         (atan2((m.getHitbox().y + RATIO / 1.5) - t.getCenter().y, (m.getHitbox().x + RATIO) - t.getCenter().x) -
                          atan2((t.getHitbox().y + RATIO) - t.getCenter().y, (t.getHitbox().x + RATIO) - t.getCenter().x)) *
@@ -146,34 +142,36 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                 t.setAngle(angle + 90);
                 t.setIsFollowingMonster(true);
                 Projectile &projectile =  t.getProjectile();
-                Rectangle actualMissileHitbox = {projectile.getCenter().x, projectile.getCenter().y, 21,39};
+                Rectangle actualMissileHitbox = {projectile.getCenter().x, projectile.getCenter().y, projectile.getHitbox().width,projectile.getHitbox().height};
                 projectile.setHitbox(actualMissileHitbox);
 
                 //si le missile n'a pas encore touché le monstre, il le suit
                 //si le monstre sort du champs, le missile suit celui qui est le plus proche de lui
-                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox())) {
+                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox()) && timer > 1.0f ) {
                     double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (projectile.getCenter().x);
                     double deltaY = (m.getHitbox().y) - (projectile.getCenter().y);
 
                     float MissileAngle = atan2(deltaY, deltaX);
 
-                    projectile.setCenter({projectile.getCenter().x + 3 * cosf(MissileAngle),
-                                                        projectile.getCenter().y + 3 * sinf(MissileAngle)});
+                    projectile.setCenter({projectile.getCenter().x + t.getSpeed() * cosf(MissileAngle),
+                                                        projectile.getCenter().y + t.getSpeed() * sinf(MissileAngle)});
                     DrawRectangleLines(projectile.getCenter().x,  projectile.getCenter().y, projectile.getHitbox().width, projectile.getHitbox().height, GREEN);
-
-
 
 
                     DrawTexturePro(
                             projectile.getImage(),
-                            {0, 0, 21, 39},
-                            {projectile.getCenter().x + 10, projectile.getCenter().y + 19, 21, 39},
-                            {10, 19},
+                            {0, 0, projectile.getHitbox().width, projectile.getHitbox().height},
+                            {projectile.getCenter().x + projectile.getHitbox().width/2, projectile.getCenter().y + projectile.getHitbox().height/2, projectile.getHitbox().width, projectile.getHitbox().height},
+                            {projectile.getHitbox().width/2, projectile.getHitbox().height/2},
                             t.getAngle(),
                             WHITE
                     );
                     //si le missile touche le monstre, il perd de la vie...
+                }else if(timer < 1.0f){
+                    auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
+                    t.getProjectile().setCenter(center);
                 }else{
+                    timer = 0.0f;
                     m.setHealth(m.getHealth() - t.getDamageDealt());
                     auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
                     t.getProjectile().setCenter(center);
@@ -303,6 +301,7 @@ void TileMapManager::launch(){
     std::vector<Monster> createdMonsters;
 
     float timer = 0.0f;
+    float fireRate = 0.0f;
     int i = 0;
     int wavesOccuring = 0;
     int textFramesCounter = 0;
@@ -312,13 +311,14 @@ void TileMapManager::launch(){
     while(!WindowShouldClose() && p1.getHealth() > 0 && allWaves.size() > wavesOccuring){
         BeginDrawing();
         drawAll(p1, inventoryHandler, towersPlaced, inventory, bg, msgHealth);
+        fireRate += GetFrameTime();
         timer += GetFrameTime();
         textFramesCounter++;
 
         wavesHandling(createdMonsters, WaveMonsterList, allWaves, monsterTrajet, wavesOccuring, textFramesCounter, i, p1, timer, message);
 
         //tir les missiles téléguidés
-        aim(createdMonsters,towersPlaced);
+        aim(createdMonsters,towersPlaced, fireRate);
         EndDrawing();
     }
     endGame(p1, wavesOccuring, allWaves);
