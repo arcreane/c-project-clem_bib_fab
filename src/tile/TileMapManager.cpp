@@ -13,6 +13,7 @@ using std::ifstream;
 #include <sstream>
 #include <algorithm>
 #include <cmath>
+#include "../controller/Waves.h"
 
 
 TileMapManager::TileMapManager(std::vector<Rectangle> &placesTower, std::vector<Rectangle> &availablePlacesTower) {
@@ -194,4 +195,131 @@ bool TileMapManager::isMonsterDetected(std::vector<Monster> monsters, Tower t){
         res = res || CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox());
     }
     return res;
+}
+
+void TileMapManager::drawEndGameScreen(Texture2D tex,int posx) {
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+        DrawTexture(tex, posx, 0, WHITE);
+        EndDrawing();
+    }
+}
+
+
+//handle the damages made to the monsters, their death, and the damage to the player
+void TileMapManager::monsterHandling(std::vector<Monster> &createdMonsters, std::vector<Monster> &WaveMonsterList, Trajet monsterTrajet, int &wavesOccuring, int &textFramesCounter, int j, Player &p1 ){
+    //damage of monster to the player
+    if (createdMonsters[j].isFinish(monsterTrajet)) {
+        p1.setHealth(p1.getHealth() - createdMonsters[j].getDamageDealt());
+        createdMonsters.erase(createdMonsters.begin() + j);
+    }
+    //if the monster dies
+    if (!createdMonsters[j].isAlive()) {
+        p1.setMoney(p1.getMoney() + createdMonsters[j].getMoney());
+        createdMonsters.erase(createdMonsters.begin() + j);
+    }
+    //if all monsters are dead, launch the next wave
+    if (createdMonsters.empty()) {
+        WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
+        wavesOccuring += 1;
+        textFramesCounter = 0;
+    }
+}
+
+void TileMapManager::endGame(Player p1, int wavesOccuring, std::vector<Waves> allWaves){
+    Texture2D gameOver = LoadTexture("../resources/game_over.png");
+    Texture2D gg = LoadTexture("../resources/GG.png");
+    //End Game screen
+    if (p1.getHealth() <= 0 ) { drawEndGameScreen(gameOver,WIDTH / 4); }
+    else if(allWaves.size() <= wavesOccuring){
+        drawEndGameScreen(gg,0);
+    }
+}
+
+void TileMapManager::wavesHandling(std::vector<Monster> &createdMonsters, std::vector<Monster> &WaveMonsterList,  std::vector<Waves> allWaves, Trajet monsterTrajet, int &wavesOccuring, int &textFramesCounter, int &i, Player &p1, float &timer, char message[15]){
+    char messageToFormat[15] = "WAVE %d" ;
+    //display the occuring waves number
+    if(WaveMonsterList.empty() && wavesOccuring < 3){
+        WaveMonsterList = allWaves[wavesOccuring].getListOfMonsters();
+        i=0;
+        snprintf(message, 15, messageToFormat , wavesOccuring);
+    }
+    DrawText(TextSubtext(message, 0, textFramesCounter/14), 580, 550, 33, WHITE);
+    //starts to add all monster of the waves into created monsters list, which is the list of alive monsters
+    if (timer > 0.5f && i< WaveMonsterList.size()) {
+        createdMonsters.push_back(WaveMonsterList[i]);
+        i++;
+        timer = 0.0f;
+    }
+    //handle the animation of the monsters
+    for (int j = 0; j < createdMonsters.size(); ++j) {
+        createdMonsters[j].setTimerFrame(createdMonsters[j].getTimerFrame() + GetFrameTime());
+        createdMonsters[j].moveMonster(monsterTrajet);
+        createdMonsters[j].drawEntity();
+        createdMonsters[j].drawHitbox();
+        createdMonsters[j].drawHealthbox();
+        if (createdMonsters[j].getTimerFrame() > 0.2f) {
+            createdMonsters[j].nextSheet();
+            createdMonsters[j].setTimerFrame(0);
+        }
+        //handle the monster damages, and the end of the wave
+        monsterHandling(createdMonsters, WaveMonsterList, monsterTrajet, wavesOccuring, textFramesCounter, j, p1);
+    }
+}
+
+
+void TileMapManager::drawAll(Player &p1, Inventory &inventoryHandler, std::vector<Tower> &towersPlaced, Texture2D inventory, Texture2D bg, char msgHealth[10]){
+    ClearBackground(RAYWHITE);
+    DrawTexture(bg,0,0,WHITE);
+    DrawTexture(inventory,1280,0, WHITE);
+    inventoryHandler.DrawAllItems();
+    inventoryHandler.checkIfneedToChangenDisplay();
+    placeTower(towersPlaced, inventoryHandler, p1);
+    drawTowers(towersPlaced);
+    p1.drawHealth(msgHealth);
+    p1.drawMoney();
+}
+
+void TileMapManager::launch(){
+    InitWindow(WIDTH,HEIGHT,"tower defense");
+    Player p1 = Player(25,5) ;
+    std::vector<Tower> towersPlaced;
+    Inventory inventoryHandler = Inventory();
+    SetTargetFPS(60);
+    Texture2D bg = LoadTexture("../resources/tower_defense.png");
+    Texture2D inventory = LoadTexture("../resources/inventory.png");
+    Trajet monsterTrajet = Trajet();
+
+    //création des waves
+    std::vector<Waves> allWaves;
+    allWaves.emplace_back(Waves( 1, 3,2));
+    allWaves.emplace_back(Waves( 2, 6,4));
+    allWaves.emplace_back(Waves( 3, 6,14));
+
+    //monsters of the occuring wave
+    std::vector<Monster> WaveMonsterList;
+    //monster of the wave that are created and alive
+    std::vector<Monster> createdMonsters;
+
+    float timer = 0.0f;
+    int i = 0;
+    int wavesOccuring = 0;
+    int textFramesCounter = 0;
+    char message[15];
+    char msgHealth[10] = "Vie : ";
+
+    while(!WindowShouldClose() && p1.getHealth() > 0 && allWaves.size() > wavesOccuring){
+        BeginDrawing();
+        drawAll(p1, inventoryHandler, towersPlaced, inventory, bg, msgHealth);
+        timer += GetFrameTime();
+        textFramesCounter++;
+
+        wavesHandling(createdMonsters, WaveMonsterList, allWaves, monsterTrajet, wavesOccuring, textFramesCounter, i, p1, timer, message);
+
+        //tir les missiles téléguidés
+        aim(createdMonsters,towersPlaced);
+        EndDrawing();
+    }
+    endGame(p1, wavesOccuring, allWaves);
 }
