@@ -9,6 +9,7 @@
 
 typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius, Projectile &projectile);
 
+//initialise l'inventaire
 Inventory::Inventory() {
     int x=1,y=0;
     int ct = 0,i=-1;
@@ -24,6 +25,7 @@ Inventory::Inventory() {
             y++;
         }
     }
+    //sItem = selected item = la tower qui peut etre posé
     Inventory::sItem = (*new Item({WIDTH_GAME + 128,93,64,64},LoadTexture("../resources/towers/Tower1.png"),"Tower1",cost[0]));
     Inventory::creatorMap.emplace("Tower1",&(Inventory::createT1));
     Inventory::creatorMap.emplace("Tower2",&(Inventory::createT2));
@@ -112,7 +114,9 @@ void Inventory::DrawAllItems() {
     DrawTexture(goldTexture, Inventory::sItem.getRec().x + 80, Inventory::sItem.getRec().y + 62, WHITE);
 }
 
-void Inventory::checkIfneedToChangeSItem(){
+//check si le joueur veut selectionner une autre tour,
+//si c'est le cas la selected tower se met à jour
+void Inventory::checkIfneedToChangenDisplay(){
     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT)){
         Vector2 mvector = GetMousePosition();
         for (int i = 0; i < items.size(); ++i) {

@@ -19,6 +19,7 @@ int main() {
     Trajet monsterTrajet = Trajet();
     TileMapManager tileMapManager = TileMapManager("../resources/tower_defense.xml");
 
+    //création des waves
     std::vector<Waves> allWaves;
     allWaves.emplace_back(Waves( 1, 3,2));
     allWaves.emplace_back(Waves( 2, 6,4));
@@ -42,7 +43,7 @@ int main() {
            DrawTexture(bg,0,0,WHITE);
            DrawTexture(inventory,1280,0, WHITE);
            inventoryHandler.DrawAllItems();
-           inventoryHandler.checkIfneedToChangeSItem();
+           inventoryHandler.checkIfneedToChangenDisplay();
            tileMapManager.placeTower(towersPlaced, inventoryHandler, p1);
            tileMapManager.drawTowers(towersPlaced);
            p1.drawHealth(msgHealth);
@@ -51,6 +52,7 @@ int main() {
            timertest += GetFrameTime();
            textFramesCounter++;
 
+           //display le numéro de wave en cours
            if(WaveMonsterList.empty() && wavesOccuring < 3){
                WaveMonsterList = allWaves[wavesOccuring].getListOfMonsters();
                i=0;
@@ -62,35 +64,40 @@ int main() {
                    i++;
                    timer = 0.0f;
             }
-            for (int j = 0; j < createdMonsters.size(); ++j) {
-               createdMonsters[j].setTimerFrame(createdMonsters[j].getTimerFrame()+GetFrameTime());
-               createdMonsters[j].moveMonster(monsterTrajet);
-               createdMonsters[j].drawEntity();
-               createdMonsters[j].drawHitbox();
-               createdMonsters[j].drawHealthbox();
-               if (createdMonsters[j].getTimerFrame() > 0.2f) {
-                   createdMonsters[j].nextSheet();
-                   createdMonsters[j].setTimerFrame(0);
-               }
-               //damage du monstre si il arrive au bout
-               if (createdMonsters[j].isFinish(monsterTrajet)){
-                   p1.setHealth(p1.getHealth()-createdMonsters[j].getDamageDealt());
-                   createdMonsters[j].setHealth(0);
-               }
-               if (!createdMonsters[j].isAlive()){
-                   p1.setMoney(p1.getMoney() + createdMonsters[j].getMoney());
-                   createdMonsters.erase(createdMonsters.begin()+j);
-                   if(createdMonsters.empty()){
-                       WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
-                       wavesOccuring+=1;
-                       textFramesCounter = 0;
-                   }
-               }
 
-           }
+            for (int j = 0; j < createdMonsters.size(); ++j) {
+                createdMonsters[j].setTimerFrame(createdMonsters[j].getTimerFrame() + GetFrameTime());
+                createdMonsters[j].moveMonster(monsterTrajet);
+                createdMonsters[j].drawEntity();
+                createdMonsters[j].drawHitbox();
+                createdMonsters[j].drawHealthbox();
+                if (createdMonsters[j].getTimerFrame() > 0.2f) {
+                    createdMonsters[j].nextSheet();
+                    createdMonsters[j].setTimerFrame(0);
+                }
+                //damage du monstre si il arrive au bout
+                if (createdMonsters[j].isFinish(monsterTrajet)) {
+                    p1.setHealth(p1.getHealth() - createdMonsters[j].getDamageDealt());
+                    //createdMonsters[j].setHealth(0);
+                }
+                //si le monstre meurt
+                if (!createdMonsters[j].isAlive()) {
+                    p1.setMoney(p1.getMoney() + createdMonsters[j].getMoney());
+                    createdMonsters.erase(createdMonsters.begin() + j);
+                    //si les monstres de la waves sont mort, on passe à la wave suivante
+                    if (createdMonsters.empty()) {
+                        WaveMonsterList.erase(WaveMonsterList.begin(), WaveMonsterList.end());
+                        wavesOccuring += 1;
+                        textFramesCounter = 0;
+                    }
+                }
+
+            }
+            //tir les missiles téléguidés
            tileMapManager.aim(createdMonsters,towersPlaced);
        EndDrawing();
    }
+    //End Game
     if (p1.getHealth() <= 0 ) { drawEndGameScreen(gameOver,WIDTH / 4); }
     else if(allWaves.size() <= wavesOccuring){
         drawEndGameScreen(gg,0);

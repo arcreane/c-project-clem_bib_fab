@@ -72,14 +72,18 @@ TileMapManager::TileMapManager(const char* file) {
     }
 }
 
+
+//place la selected tower à l'endroit selectionné
 void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inventoryHandler,Player &player) {
     bool notPlacedYet = true;
     if(IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) || IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         Vector2 mvector = GetMousePosition();
         for (int i = 0; i < placesTower.size(); ++i) {
             Rectangle place = placesTower.at(i);
+            //si l'endroit cliqué correspond à une case de tower possible prédéfini
             if(CheckCollisionPointRec(mvector,place)){
                 for (int j = 0; j < towersPlaced.size(); ++j) {
+                    //si une tour existe déjà à cette place
                     if (towersPlaced.at(j).getHitbox().x == place.x && towersPlaced.at(j).getHitbox().y == place.y){
                         notPlacedYet = false;
                     }
@@ -91,6 +95,7 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
 
                     Projectile missile = Projectile(0, 0, hitboxMissile, 3,{x_pos, y_pos},  "1",LoadTexture("../resources/missile.png"), 0);
 
+                    //création de la tower
                     Tower tower = inventoryHandler.getCreatorMap().find(
                             inventoryHandler.getSItem().getId())->second(
                                     0.0,
@@ -101,6 +106,7 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                                     {place.x + RATIO,place.y + RATIO},
                                     200,
                                     missile);
+                    //si le joueur à assez d'argent pour acheter la tower
                     if (tower.getCost() <= player.getMoney()) {
                         towersPlaced.push_back(tower);
                         player.setMoney(player.getMoney() - tower.getCost());
@@ -110,7 +116,7 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
         }
     }
 }
-
+//draw les tower qui sont placées
 void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
     for (int i = 0; i < towersPlaced.size(); ++i) {
         Tower t = towersPlaced.at(i);
@@ -124,11 +130,13 @@ void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
         DrawCircleLines(t.getCenter().x,t.getCenter().y,t.getRadius(),GREEN);
     }
 }
+//tir de missile téléguidés lors de détection
 void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced){
 
     for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
     for (auto & t : towersPlaced) {
         for (auto & m : monsters) {
+            //si le monstre rentre dans la zone de détection
             if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster()) {
                 double angle =
                         (atan2((m.getHitbox().y + RATIO / 1.5) - t.getCenter().y, (m.getHitbox().x + RATIO) - t.getCenter().x) -
@@ -140,6 +148,8 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                 Rectangle actualMissileHitbox = {projectile.getCenter().x, projectile.getCenter().y, 21,39};
                 projectile.setHitbox(actualMissileHitbox);
 
+                //si le missile n'a pas encore touché le monstre, il le suit
+                //si le monstre sort du champs, le missile suit celui qui est le plus proche de lui
                 if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox())) {
                     double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (projectile.getCenter().x);
                     double deltaY = (m.getHitbox().y) - (projectile.getCenter().y);
@@ -161,11 +171,13 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                             t.getAngle(),
                             WHITE
                     );
+                    //si le missile touche le monstre, il perd de la vie...
                 }else{
                     m.setHealth(m.getHealth() - t.getDamageDealt());
                     auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
                     t.getProjectile().setCenter(center);
                 }
+                //...et retourne au point de tir initial
             }else if (!isMonsterDetected(monsters,t)){
                 auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
                 t.getProjectile().setCenter(center);
@@ -174,6 +186,7 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
     }
 }
 
+//check si le monstre rentre dans le cercle de détection de la tower
 bool TileMapManager::isMonsterDetected(std::vector<Monster> monsters, Tower t){
     bool res = false;
     for (int i = 0; i < monsters.size(); ++i) {

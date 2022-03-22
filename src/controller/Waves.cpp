@@ -83,5 +83,3 @@ void Waves::initListOfMonsters(){
     }
     Waves::setListOfMonsters(initList);
 }
-
-//Créer des fonctions permettant d'initialiser la liste et de retirer des monstres de la liste

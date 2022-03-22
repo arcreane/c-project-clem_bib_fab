@@ -24,6 +24,8 @@ bool Monster::isAlive() {
     return false;
 }
 
+//Si le monstre touche un des points de Trajet,
+//il change de direction pour suivre le tracé prédéfini
 void Monster::changeDirectionIfNeeded(Trajet trajet) {
     std::vector<Vector2> allDir = trajet.getEnemyTrajet();
     std::vector<int> dir = trajet.getEnemyTrajetDir();
@@ -34,6 +36,7 @@ void Monster::changeDirectionIfNeeded(Trajet trajet) {
     }
 }
 
+//le monstre bouge en fonction de sa direction
 void Monster::moveMonster(Trajet trajet) {
     for (int i = 0; i < this->getSpeed(); ++i) {
         changeDirectionIfNeeded(trajet);
@@ -54,6 +57,7 @@ void Monster::moveMonster(Trajet trajet) {
     }
 }
 
+
 void Monster::nextSheet() {
     int  x = Monster::spriteSheet.getCurrentSheet();
     if (x + 1 > 2){
@@ -63,6 +67,7 @@ void Monster::nextSheet() {
     }
 }
 
+//draw monster
 void Monster::drawEntity(){
     DrawTextureRec(Monster::spriteSheet.getSSheet(),
                    {Monster::spriteSheet.getCurrentSheet() * Monster::spriteSheet.getWgap() + monsterType,
@@ -90,6 +95,7 @@ float Monster::getInitialHealth() const { return initialHealth; }
 
 void Monster::setInitialHealth(float initialHealth) { Monster::initialHealth = initialHealth; }
 
+//check si le monstre arrive au point final
 bool Monster::isFinish(Trajet trajet) {
     std::vector<Vector2> allDir = trajet.getEnemyTrajet();
     if (CheckCollisionPointRec(allDir[3],this->getHitbox()) and !this->finish){
@@ -97,10 +103,6 @@ bool Monster::isFinish(Trajet trajet) {
         return true;
     }
     return false;
-}
-
-bool Monster::isFinish1() const {
-    return finish;
 }
 
 void Monster::setFinish(bool finish) {

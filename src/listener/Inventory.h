@@ -69,7 +69,7 @@ public:
 
     void DrawAllItems();
 
-    void checkIfneedToChangeSItem();
+    void checkIfneedToChangenDisplay();
 };
 
 
