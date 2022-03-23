@@ -7,7 +7,7 @@
 #include "Inventory.h"
 #include "../tile/TileMapManager.h"
 
-typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed,const std::string &id,const Texture2D &image,Vector2 center,float radius);
+typedef Tower (*createTowerFunction)(float timerFrame, Rectangle &hitbox, int speed, float firerate, const std::string &id,const Texture2D &image,Vector2 center,float radius);
 
 //initialise l'inventaire
 Inventory::Inventory() {

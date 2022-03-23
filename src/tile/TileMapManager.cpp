@@ -98,6 +98,7 @@ void TileMapManager::placeTower(std::vector<Tower> &towersPlaced, Inventory &inv
                                     0.0,
                                     place,
                                     1,
+                                    0.0f,
                                     inventoryHandler.getSItem().getId(),
                                     inventoryHandler.getSItem().getImage(),
                                     {place.x + RATIO,place.y + RATIO},
@@ -147,7 +148,8 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
 
                 //si le missile n'a pas encore touché le monstre, il le suit
                 //si le monstre sort du champs, le missile suit celui qui est le plus proche de lui
-                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox()) && timer > 1.0f ) {
+                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox()) && timer > t.getFirerate() ) {
+                    std::cout<<"firerate: "<<t.getFirerate()<<std::endl;
                     double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (projectile.getCenter().x);
                     double deltaY = (m.getHitbox().y) - (projectile.getCenter().y);
 
@@ -166,10 +168,11 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                             t.getAngle(),
                             WHITE
                     );
-                    //si le missile touche le monstre, il perd de la vie...
-                }else if(timer < 1.0f){
+
+                }else if(timer < t.getFirerate()){
                     auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
                     t.getProjectile().setCenter(center);
+                    //si le missile touche le monstre, il perd de la vie...
                 }else{
                     timer = 0.0f;
                     m.setHealth(m.getHealth() - t.getDamageDealt());

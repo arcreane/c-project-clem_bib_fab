@@ -34,8 +34,8 @@ Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,c
                                                                                    cost(cost),
                                                                                    projectile(projectile) {}
 
-Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed,const std::string &id,
-             const Texture2D &image,Vector2 center,float radius, int cost ,std::string pathToMissile) : InfoEntities(damageDealt, timerFrame,hitbox, speed), id(id),
+Tower::Tower(float damageDealt, float timerFrame, Rectangle &hitbox, int speed, float firerate, const std::string &id,
+             const Texture2D &image,Vector2 center,float radius, int cost ,std::string pathToMissile) : InfoEntities(damageDealt, timerFrame,hitbox, speed),firerate(firerate), id(id),
                                                                                                      image(image),
                                                                                                      center(center),
                                                                                                      radius(radius),cost(cost){
@@ -88,3 +88,11 @@ void Tower::setIsFollowingMonster(bool isFollowingMonster) {
 float Tower::getCost() const { return cost; }
 
 void Tower::setCost(float cost) { Tower::cost = cost; }
+
+float Tower::getFirerate() const {
+    return firerate;
+}
+
+void Tower::setFirerate(float firerate) {
+    Tower::firerate = firerate;
+}
