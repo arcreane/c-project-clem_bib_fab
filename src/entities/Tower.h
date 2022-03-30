@@ -21,6 +21,7 @@ class Tower : public InfoEntities{
     bool isFollowingMonster = false;
     Projectile projectile;
     float firerate;
+    float timer =100.0f;
 
 private:
     int cost = 2;
@@ -69,6 +70,10 @@ public:
     float getCost() const;
 
     void setCost(float cost);
+
+    float getTimer() const;
+
+    void setTimer(float timer);
 };
 
 

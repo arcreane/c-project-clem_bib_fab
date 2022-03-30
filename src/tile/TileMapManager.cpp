@@ -129,10 +129,11 @@ void TileMapManager::drawTowers(std::vector<Tower> towersPlaced) {
     }
 }
 //tir de missile téléguidés lors de détection
-void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced, float &timer){
+void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towersPlaced){
 
     for (auto & t : towersPlaced) {t.setIsFollowingMonster(false);}
     for (auto & t : towersPlaced) {
+        t.setTimer(t.getTimer() + GetFrameTime());
         for (auto & m : monsters) {
             //si le monstre rentre dans la zone de détection
             if (CheckCollisionCircleRec(t.getCenter(),t.getRadius(),m.getHitbox()) && !t.isItFollowingMonster() ) {
@@ -148,8 +149,7 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
 
                 //si le missile n'a pas encore touché le monstre, il le suit
                 //si le monstre sort du champs, le missile suit celui qui est le plus proche de lui
-                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox()) && timer > t.getFirerate() ) {
-                    std::cout<<"firerate: "<<t.getFirerate()<<std::endl;
+                if(!CheckCollisionRecs(m.getHitbox(), projectile.getHitbox()) && t.getTimer() >= t.getFirerate() ) {
                     double deltaX = (m.getHitbox().x + m.getHitbox().width/2) - (projectile.getCenter().x);
                     double deltaY = (m.getHitbox().y) - (projectile.getCenter().y);
 
@@ -169,12 +169,8 @@ void TileMapManager::aim(std::vector<Monster> &monsters,std::vector<Tower> &towe
                             WHITE
                     );
 
-                }else if(timer < t.getFirerate()){
-                    auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
-                    t.getProjectile().setCenter(center);
-                    //si le missile touche le monstre, il perd de la vie...
-                }else{
-                    timer = 0.0f;
+                }else if (CheckCollisionRecs(m.getHitbox(), projectile.getHitbox())){
+                    t.setTimer(0);
                     m.setHealth(m.getHealth() - t.getDamageDealt());
                     auto center = Vector2{t.getHitbox().x + RATIO,t.getHitbox().y + RATIO};
                     t.getProjectile().setCenter(center);
@@ -304,7 +300,6 @@ void TileMapManager::launch(){
     std::vector<Monster> createdMonsters;
 
     float timer = 0.0f;
-    float fireRate = 0.0f;
     int i = 0;
     int wavesOccuring = 0;
     int textFramesCounter = 0;
@@ -314,14 +309,13 @@ void TileMapManager::launch(){
     while(!WindowShouldClose() && p1.getHealth() > 0 && allWaves.size() > wavesOccuring){
         BeginDrawing();
         drawAll(p1, inventoryHandler, towersPlaced, inventory, bg, msgHealth);
-        fireRate += GetFrameTime();
         timer += GetFrameTime();
         textFramesCounter++;
 
         wavesHandling(createdMonsters, WaveMonsterList, allWaves, monsterTrajet, wavesOccuring, textFramesCounter, i, p1, timer, message);
 
         //tir les missiles téléguidés
-        aim(createdMonsters,towersPlaced, fireRate);
+        aim(createdMonsters,towersPlaced);
         EndDrawing();
     }
     endGame(p1, wavesOccuring, allWaves);

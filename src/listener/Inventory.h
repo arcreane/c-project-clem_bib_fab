@@ -23,9 +23,9 @@ class Inventory {
     std::vector<Item> items;
     std::map<std::string,createTowerFunction> creatorMap;
     static Tower createT1(float timerFrame, Rectangle &hitbox, int speed,float firerate,const std::string &id,const Texture2D &image,Vector2 center,float radius)
-                          { return (*new Tower(1,timerFrame,hitbox,10,0.5f,"Tower1", LoadTexture("../resources/towers/Tower1.png"),center,radius,cost[0],"../resources/missile3.png")); };
+                          { return (*new Tower(1,timerFrame,hitbox,10,0.2f,"Tower1", LoadTexture("../resources/towers/Tower1.png"),center,radius,cost[0],"../resources/missile3.png")); };
     static Tower createT2(float timerFrame, Rectangle &hitbox, int speed,float firerate, const std::string &id,const Texture2D &image,Vector2 center,float radius)
-                          { return (*new Tower(3,timerFrame,hitbox,3,1.2f,"Tower2",LoadTexture("../resources/towers/Tower2.png"),center,radius,cost[1],"../resources/missile2.png")); };
+                          { return (*new Tower(3,timerFrame,hitbox,3,1.0f,"Tower2",LoadTexture("../resources/towers/Tower2.png"),center,radius,cost[1],"../resources/missile2.png")); };
     static Tower createT3(float timerFrame, Rectangle &hitbox, int speed,float firerate, const std::string &id,const Texture2D &image,Vector2 center,float radius)
                           { return (*new Tower(2,timerFrame,hitbox,3,0.8f,"Tower3",LoadTexture("../resources/towers/Tower3.png"),center,radius,cost[2],"../resources/missile5.png")); };
     static Tower createT4(float timerFrame, Rectangle &hitbox, int speed,float firerate, const std::string &id,const Texture2D &image,Vector2 center,float radius)

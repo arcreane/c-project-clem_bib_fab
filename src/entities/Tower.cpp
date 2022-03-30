@@ -96,3 +96,11 @@ float Tower::getFirerate() const {
 void Tower::setFirerate(float firerate) {
     Tower::firerate = firerate;
 }
+
+float Tower::getTimer() const {
+    return timer;
+}
+
+void Tower::setTimer(float timer) {
+    Tower::timer = timer;
+}
